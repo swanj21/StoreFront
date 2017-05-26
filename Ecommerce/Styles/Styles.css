@@ -1,0 +1,63 @@
+﻿#Header
+{
+    background-color: azure;
+    font-size: 20px;
+    width: 860px;
+    height: 30px;
+}
+#BottomHeader
+{
+    background-color: azure;
+    width: 860px;
+    height: 60px;
+    text-align: center;
+    font-size: 40px;
+}
+*
+{
+    font-family: Arial;
+}
+h1
+{
+    font-size: 50px;
+}
+p
+{
+    color:cornflowerblue;
+}
+a
+{
+   color: blue; 
+}
+a:hover
+{
+    color: black;
+}
+a:visited
+{
+    color: red;
+}
+#PageWrapper
+{
+    width: 860px;
+}
+#MainContentLeft
+{
+    background-color: aliceblue;
+    width: 420px;
+    height: auto;
+    float: left;
+}
+#MainContentRight
+{
+    background-color: aliceblue;
+    width: 420px;
+    height: auto;
+    float: right;
+}
+#Footer
+{
+    background-color: azure;
+    width: 860px;
+    clear: both;
+}
