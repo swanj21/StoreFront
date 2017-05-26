@@ -42,12 +42,14 @@
         </asp:ScriptManager>
 
         <div id = "PageWrapper" class="container body-content">
-            <div id="Header">
+            <div id="HeaderLeft">
                 <a href = "Default.aspx">Home</a> | 
                 <a href = "ProductsAdmin.aspx">Product</a> |
-                <a href = "ProductAdminDetails.aspx">Product Details</a> |
-                <a href = "CustomersAdmin.aspx">Customer</a> |
-                <a href = "CustomerAdminDetails.aspx">Customer Details</a>
+                <a href = "CustomersAdmin.aspx">Customer</a>
+            </div>
+            <div id="HeaderRight">
+                <span style="float:right;">&nbsp 0</span>
+                <span style="float:right;font:bold;text-decoration:underline;">View Cart</span>
             </div>
             <div id="BottomHeader">
                 <asp:ContentPlaceHolder ID ="cpPageTitle" runat ="server">

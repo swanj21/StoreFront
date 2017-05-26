@@ -1,9 +1,18 @@
-﻿#Header
+﻿#HeaderLeft
 {
     background-color: azure;
     font-size: 20px;
-    width: 860px;
+    width: 430px;
     height: 30px;
+    float:left;
+}
+#HeaderRight
+{
+    background-color: azure;
+    font-size: 18px;
+    width: 430px;
+    height: 30px;
+    float:right;
 }
 #BottomHeader
 {
