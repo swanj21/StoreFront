@@ -1,7 +1,7 @@
 ﻿*
 {
     font-family:Cambria;
-    font-size:10px;
+    font-size:16px;
 }
 header
 {
@@ -9,7 +9,7 @@ header
 }
 body 
 {
-    background-color: darkgray;
+    background-color: silver;
 }
 footer
 {
@@ -51,8 +51,8 @@ h3
 }
 p
 {
-    background-color:burlywood;
-    border:thin;
+    background-color:silver;
+    border:thick;
 }
 #ShoppingCart
 {
@@ -62,16 +62,10 @@ p
 }
 a
 {
-    color:aquamarine;
-    font-style:italic;
+    color:blue;
 }
 a:hover
 {
     color:black;
-    font-style:italic;
-}
-a:visited
-{
-    color:blueviolet;
     font-style:italic;
 }
