@@ -15,7 +15,7 @@ namespace Ecommerce.Models
             shoppingCartProduct = new HashSet<shoppingCartProduct>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ShoppingCartID { get; set; }
 
         public int? UserID { get; set; }

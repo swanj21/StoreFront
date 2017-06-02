@@ -15,7 +15,7 @@ namespace Ecommerce.Models
             address = new HashSet<address>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StateID { get; set; }
 
         [StringLength(2)]

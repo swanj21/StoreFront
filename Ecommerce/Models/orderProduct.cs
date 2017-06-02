@@ -9,7 +9,7 @@ namespace Ecommerce.Models
     [Table("orderProduct")]
     public partial class orderProduct
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderProductID { get; set; }
 
         public int? OrderID { get; set; }

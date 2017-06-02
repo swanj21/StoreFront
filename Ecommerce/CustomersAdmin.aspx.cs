@@ -21,7 +21,7 @@ namespace Ecommerce
 
         protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
         {
-            Response.Redirect("CustomerAdminDetails.aspx?userid=" + e.NewEditIndex);
+            Response.Redirect("CustomerAdminDetails.aspx?userid=" + (e.NewEditIndex + 1));
         }
     }
 }

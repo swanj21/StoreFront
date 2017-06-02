@@ -9,7 +9,7 @@ namespace Ecommerce.Models
     [Table("shoppingCartProduct")]
     public partial class shoppingCartProduct
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ShoppingCartProductID { get; set; }
 
         public int? ShoppingCartID { get; set; }

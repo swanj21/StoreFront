@@ -1,8 +1,5 @@
 ﻿@model Ecommerce.Models.CustomerBaseViewModel
 
-@{
-    ViewBag.Title = "CustomerBaseViewModel";
-}
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +15,12 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2>
-                Downtown Brown Ice Rink
-                <a href="#" class="btn btn-default" style="float:right">
+                <span class="glyphicon glyphicon-yen"></span> Downtown Brown Ice Rink <span class="glyphicon glyphicon-yen"></span>
+                <a href="~/ShoppingCart" class="btn btn-default" style="float:right">
                     <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
                     View Cart (
                     @{ 
-                        
+                        // Model.shoppingCart.Find
                     }
                     )
                     <!--0 will be replaced by how many items in cart-->
@@ -39,7 +36,7 @@
                         </button>
                         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Search", "Index", "Search", new { area = "" }, new { @class = "navbar-brand" })
-                        @Html.ActionLink("Profile", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Profile", "Index", "Users", new { area = "" }, new { @class = "navbar-brand" })
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
@@ -52,12 +49,12 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Downtown Brown Ice Rink</p>
-        </footer>
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<footer>
+    <p>&copy; @DateTime.Now.Year - Downtown Brown Ice Rink</p>
+</footer>

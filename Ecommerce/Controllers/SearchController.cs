@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,83 +10,28 @@ namespace Ecommerce.Controllers
 {
     public class SearchController : Controller
     {
-        
-        // GET: Search
+        CustomerBaseViewModel eCommerceDB = new CustomerBaseViewModel();
+
+        // GET: Search(Search/Index) This gets called when the page is first queried.
         public ActionResult Index()
         {
+            ViewBag.Title = "Search";
             return View();
         }
 
-        // GET: Search/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Search/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Search/Create
+        // POST: Search/Index
+        // Gets called when sending information from the Index page by using a submit button(or others)
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Index(string one)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View("Search");
         }
 
-        // GET: Search/Edit/5
-        public ActionResult Edit(int id)
+        // GET
+        public ActionResult Search(IEnumerable<product> prod)
         {
-            return View();
-        }
-
-        // POST: Search/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Search/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Search/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            ViewBag.Title = "Products";
+            return View(prod); // This needs an IEnumerable product object passed to it.
         }
     }
 }

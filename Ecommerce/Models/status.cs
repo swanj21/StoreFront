@@ -14,7 +14,7 @@ namespace Ecommerce.Models
             orders = new HashSet<orders>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StatusID { get; set; }
 
         [StringLength(100)]

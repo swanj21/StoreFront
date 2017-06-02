@@ -1,0 +1,31 @@
+﻿@model Ecommerce.Models.users
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+<hr />
+<!--Provide the user with fields for: Username, Password, Confirm password, Email address.
+    Implement required validators on all fields <- This needs to be reworked, nothing is picking up.
+    Implement a compare b/w Password and Confirm
+    Implement a regex validator to check if email is valid-->
+
+@using (Html.BeginForm("ConfirmRegister", "Users", FormMethod.Post))
+{
+    <dl class="dl-horizontal">
+        <dt>UserName: </dt> <dd><input type="text" name="userName" placeholder="Username" required/></dd>
+        <dt>Password: </dt> <dd><input type="password" name="userPass" required/></dd>
+        <dt>Confirm Password: </dt> <dd><input type="password" name="confirmPass" required/></dd>
+        <dt>Email Address: </dt> <dd><input type="email" name="userEmail" placeholder="Email Address" required/></dd>
+    </dl>
+    <input type="submit" value="Register" />
+    @Html.ValidationMessage("userName")
+    @Html.ValidationMessage("userPass")
+    @Html.ValidationMessage("confirmPass")
+    @Html.ValidationMessage("userEmail")
+}
+
+<p>
+    @Html.ActionLink("Back to Profile", "Index", "Users")
+</p>

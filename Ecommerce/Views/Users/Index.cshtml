@@ -1,0 +1,9 @@
+﻿<!-- UserController - Index -->
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Welcome to your user page!</h2>
+
+<p>@Html.ActionLink("Register", "Register", "Users", new { }, new { @class = "btn btn-default" }) <span class="glyphicon glyphicon-arrow-right"></span> If you have not been here before.<br /><br />
+   @Html.ActionLink("Login", "Login", "Users", new { }, new { @class = "btn btn-primary" }) <span class="glyphicon glyphicon-arrow-right"></span> If you are a returning user.</p>

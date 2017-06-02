@@ -1,0 +1,43 @@
+﻿<!-- SearchController - Search -->
+@model IEnumerable<Ecommerce.Models.product>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Product Information</h2>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <!--foreach (var item in Model)
+        {-->
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+
+        <dd>
+            <!-- Html.DisplayFor(model => model.ProductName)-->
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            <!-- Html.DisplayFor(model => model.Price)-->
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageFile)
+        </dt>
+
+        <dd>
+            <!-- Html.DisplayFor(model => model.ImageFile)-->
+        </dd>
+        @Html.ActionLink("Add to Cart", "Index", "ShoppingCart", new { }, new { @class = "btn btn-info" })
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to Search", "Index")
+</p>

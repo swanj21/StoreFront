@@ -17,16 +17,24 @@ namespace Ecommerce.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserID { get; set; }
 
+        [Required]
         [StringLength(200)]
         public string UserName { get; set; }
 
+        [Required]
         [MaxLength(500)]
+        [MinLength(7)]
         public byte[] Password { get; set; }
 
+        [Compare("Password")]
+        public byte[] ConfirmPass { get; set; }
+
+        [Required]
         [StringLength(255)]
+        [RegularExpression("^[a-zA-Z_]([a-zA-Z0-9_\\.\\-])+@([a-zA-Z0-9\\-\\.])+([a-zA-Z0-9])+")]
         public string EmailAddress { get; set; }
 
         public bool? IsAdmin { get; set; }

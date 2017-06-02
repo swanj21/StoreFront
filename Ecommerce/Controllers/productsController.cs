@@ -46,7 +46,7 @@ namespace Ecommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,ProductName,ProductDescription,IsPublished,Quantity,Price,ImageFile,DateCreated,CreatedBy,DateModified,ModifiedBy")] product product)
+        public ActionResult Create([Bind(Include = "ProductName,ProductDescription,IsPublished,Quantity,Price,ImageFile,DateCreated,CreatedBy,DateModified,ModifiedBy")] product product)
         {
             if (ModelState.IsValid)
             {

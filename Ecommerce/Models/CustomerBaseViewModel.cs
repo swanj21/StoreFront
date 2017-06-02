@@ -5,6 +5,7 @@ namespace Ecommerce.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Data.SqlClient;
+    using System.Web;
 
     public partial class CustomerBaseViewModel : DbContext
     {
@@ -20,7 +21,7 @@ namespace Ecommerce.Models
         public virtual DbSet<state> state { get; set; }
         public virtual DbSet<status> status { get; set; }
         public virtual DbSet<users> users { get; set; }
-
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<address>()
@@ -144,9 +145,12 @@ namespace Ecommerce.Models
                 .IsUnicode(false);
         }
 
+
+
         // Return name in first initial, last name format(gswan).
         // This property will access the session to retrieve the username.
         public string UserName;
+
         // This will return the ID of the record in the user table.
         public int UserID;
     }
