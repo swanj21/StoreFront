@@ -9,7 +9,6 @@ namespace Ecommerce.Models
     [Table("orderProduct")]
     public partial class orderProduct
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderProductID { get; set; }
 
         public int? OrderID { get; set; }
@@ -31,7 +30,7 @@ namespace Ecommerce.Models
         [StringLength(50)]
         public string ModifiedBy { get; set; }
 
-        public virtual orders orders { get; set; }
+        public virtual order order { get; set; }
 
         public virtual product product { get; set; }
     }

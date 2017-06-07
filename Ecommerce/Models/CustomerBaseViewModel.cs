@@ -4,24 +4,23 @@ namespace Ecommerce.Models
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
-    using System.Data.SqlClient;
-    using System.Web;
 
     public partial class CustomerBaseViewModel : DbContext
     {
         public CustomerBaseViewModel()
-            : base("name=CustomerBaseViewModel") { }
-
+            : base("name=CustomerBaseViewModel1")
+        {
+        }
         public virtual DbSet<address> address { get; set; }
         public virtual DbSet<orderProduct> orderProduct { get; set; }
-        public virtual DbSet<orders> orders { get; set; }
+        public virtual DbSet<order> order { get; set; }
         public virtual DbSet<product> product { get; set; }
         public virtual DbSet<shoppingCart> shoppingCart { get; set; }
         public virtual DbSet<shoppingCartProduct> shoppingCartProduct { get; set; }
         public virtual DbSet<state> state { get; set; }
         public virtual DbSet<status> status { get; set; }
         public virtual DbSet<users> users { get; set; }
-        
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<address>()
@@ -64,15 +63,15 @@ namespace Ecommerce.Models
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<orders>()
+            modelBuilder.Entity<order>()
                 .Property(e => e.Total)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<orders>()
+            modelBuilder.Entity<order>()
                 .Property(e => e.CreatedBy)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<orders>()
+            modelBuilder.Entity<order>()
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
 
@@ -133,6 +132,10 @@ namespace Ecommerce.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<users>()
+                .Property(e => e.Password)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<users>()
                 .Property(e => e.EmailAddress)
                 .IsUnicode(false);
 
@@ -144,8 +147,6 @@ namespace Ecommerce.Models
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
         }
-
-
 
         // Return name in first initial, last name format(gswan).
         // This property will access the session to retrieve the username.

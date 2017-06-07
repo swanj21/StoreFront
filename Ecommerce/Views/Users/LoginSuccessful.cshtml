@@ -1,0 +1,12 @@
+﻿@model Ecommerce.Models.users
+
+@{
+    ViewBag.Title = "Login Successful";
+}
+
+<h2>Login Successful!</h2>
+
+<div class="text-info">
+    You have been successfully logged in!<br />
+    @Html.ActionLink("Return to home page", "Index", new { }, new { @class = "btn btn-primary" })
+</div>

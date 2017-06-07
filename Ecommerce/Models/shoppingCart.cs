@@ -12,10 +12,9 @@ namespace Ecommerce.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public shoppingCart()
         {
-            shoppingCartProduct = new HashSet<shoppingCartProduct>();
+            shoppingCartProducts = new HashSet<shoppingCartProduct>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ShoppingCartID { get; set; }
 
         public int? UserID { get; set; }
@@ -31,8 +30,8 @@ namespace Ecommerce.Models
         public string ModifiedBy { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<shoppingCartProduct> shoppingCartProduct { get; set; }
+        public virtual ICollection<shoppingCartProduct> shoppingCartProducts { get; set; }
 
-        public virtual users users { get; set; }
+        public virtual users user { get; set; }
     }
 }

@@ -16,15 +16,16 @@
         <div class="panel-heading">
             <h2>
                 <span class="glyphicon glyphicon-yen"></span> Downtown Brown Ice Rink <span class="glyphicon glyphicon-yen"></span>
-                <a href="~/ShoppingCart" class="btn btn-default" style="float:right">
-                    <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                    View Cart (
-                    @{ 
-                        // Model.shoppingCart.Find
-                    }
-                    )
-                    <!--0 will be replaced by how many items in cart-->
-                </a>
+                @{ 
+                      if (Session["LogInValid"].ToString().Equals("True"))
+                      {
+                        <a href="~/ShoppingCart" class="btn btn-default" style="float:right">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                            Cart (@Session["ItemsInCart"])
+                            <!--0 will be replaced by how many items in cart-->
+                        </a>
+                     }
+                }
             </h2>
         </div>
         <div class="panel-body">
@@ -41,6 +42,12 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                         </ul>
+                        @{
+                            if (Session["LogInValid"].ToString().Equals("True"))
+                            {
+                                <div class="navbar-brand" style="float:right;">Welcome @Session["Username"]</div>
+                            }
+                        }
                     </div>
                 </div>
             </div>

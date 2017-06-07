@@ -12,10 +12,9 @@ namespace Ecommerce.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public address()
         {
-            orders = new HashSet<orders>();
+            orders = new HashSet<order>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AddressID { get; set; }
 
         public int? UserID { get; set; }
@@ -53,9 +52,9 @@ namespace Ecommerce.Models
 
         public virtual state state { get; set; }
 
-        public virtual users users { get; set; }
+        public virtual users user { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<orders> orders { get; set; }
+        public virtual ICollection<order> orders { get; set; }
     }
 }

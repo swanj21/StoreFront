@@ -1,9 +1,19 @@
 ﻿<!-- UserController - Index -->
 @{
     ViewBag.Title = "Users";
+
+    if (Session["LogInValid"].ToString().Equals("True"))
+    {
+        <h2>Welcome to your user page!</h2>
+    }
+    else
+    {
+    <p>
+        @Html.ActionLink("Register", "Register", "Users", new { }, new { @class = "btn btn-default" }) <span class="glyphicon glyphicon-arrow-right"></span> If you have not been here before.<br /><br />
+        @Html.ActionLink("Login", "Login", "Users", new { }, new { @class = "btn btn-primary" }) <span class="glyphicon glyphicon-arrow-right"></span> If you are a returning user.
+    </p>
+    }
+    /* If the session for the user exists then hide the register and login buttons
+     * and instead present a screen that just says "[UserName]'s user page".
+    */
 }
-
-<h2>Welcome to your user page!</h2>
-
-<p>@Html.ActionLink("Register", "Register", "Users", new { }, new { @class = "btn btn-default" }) <span class="glyphicon glyphicon-arrow-right"></span> If you have not been here before.<br /><br />
-   @Html.ActionLink("Login", "Login", "Users", new { }, new { @class = "btn btn-primary" }) <span class="glyphicon glyphicon-arrow-right"></span> If you are a returning user.</p>

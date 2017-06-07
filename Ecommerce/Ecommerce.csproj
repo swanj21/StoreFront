@@ -253,6 +253,7 @@
     </Compile>
     <Compile Include="Models\address.cs" />
     <Compile Include="Models\CustomerBaseViewModel.cs" />
+    <Compile Include="Models\order.cs" />
     <Compile Include="Models\orderProduct.cs" />
     <Compile Include="Models\orders.cs" />
     <Compile Include="Models\product.cs" />
@@ -323,12 +324,16 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Users\ConfirmRegister.cshtml" />
     <Content Include="Views\Users\RegisterFail.cshtml" />
+    <Content Include="Views\Users\LoginSuccessful.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
