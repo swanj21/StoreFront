@@ -46,8 +46,9 @@ namespace Ecommerce.Controllers
             string[] salt = dbPass.Split(':');
             if (HashPassword(user.Password, salt[0]).Equals(dbPass))
             {
-                Session.Add("ItemsInCart", user.GetItemsInCart(dbUser)); // Save items in cart to session
+                Session.Add("ItemsInCart", Convert.ToInt32(user.GetItemsInCart(dbUser))); // Save items in cart to session
                 Session.Add("Username", user.UserName); // Save username to session
+                Session.Add("UserID", user.UserID); // Save userID to session
                 Session.Add("LogInValid", "True"); // Save the valid login to session
                 return RedirectToAction("LoginSuccessful");
             }

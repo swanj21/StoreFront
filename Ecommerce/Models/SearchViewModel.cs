@@ -7,14 +7,43 @@ namespace Ecommerce.Models
 {
     public class SearchViewModel : CustomerBaseViewModel
     {
-        /* @param string productName
-           @return product(object) with the name specified by productName
-           */
-        public product SearchProducts(string productName)
+        public List<product> currentProdList { get; set; }
+
+        /* @param string searchString
+           @return IEnumerable<product> with the name like searchString.
+        */
+        public void SearchProducts(string searchString)
         {
-            // Get the ID corresponding to the productName.
-            // Use that ID in spGetProduct to return the result.
-            return new product();
+            var dbProductList = Database.SqlQuery<product>(
+                "SELECT * " +
+                "FROM product " +
+                "WHERE product.ProductName LIKE '%" + searchString + "%';");
+
+            currentProdList = dbProductList.ToList();
+        }
+
+        public bool AddShoppingCartItem(int productID, int shoppingCartID, users user)
+        {
+            Object queryResult = null;
+            queryResult = Database.SqlQuery<Object>(
+                "select * " +
+                "from shoppingCartProduct " +
+                "where NOT EXISTS (select * " +
+                                  "from shoppingCartProduct " +
+                                  "where ShoppingCartID = {0} AND ProductID = {1})", shoppingCartID, productID).Count();
+            if (queryResult.Equals(0) && shoppingCartProduct.Count() > 0)
+            {
+                Database.ExecuteSqlCommand("Update shoppingCartProduct " +
+                                           "set Quantity = (Quantity + 1), DateModified = SYSDATETIME(), ModifiedBy = {0} " +
+                                           "where ProductID = {1} AND ShoppingCartID = {2}", user.UserName, productID, shoppingCartID);
+                return true;
+            }
+            else
+            {
+                Database.ExecuteSqlCommand("insert into shoppingCartProduct values ({0}, {1}, 1, SYSDATETIME(), {2}, null, null);",
+                    shoppingCartID, productID, user.UserName);
+                return false;
+            }
         }
     }
 }

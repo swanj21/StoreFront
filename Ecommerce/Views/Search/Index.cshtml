@@ -6,11 +6,13 @@
 <hr />
 
 <div class="form-group">
-    <form method="post" id="myForm">
-        <label for="searchBox">Search</label>
-        <input type="search" class="form-control" id="searchBox" name="searchBox" placeholder="Helmet" />
-        @Html.ActionLink("Search", "Search", "Search", new { @param1 = 2, @param2 = 5 }, new { @class = "btn btn-info" })
-    </form>
+    @using (Html.BeginForm())
+    {
+        <div class="form-group">
+            @Html.TextBox("searchItem", null)
+        </div>
+        <input type="submit" value="Search Products" />
+    }
 </div>
 
 <p>

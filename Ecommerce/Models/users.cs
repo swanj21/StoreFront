@@ -21,7 +21,6 @@ namespace Ecommerce.Models
 
         public users FindUser(string userName)
         {
-            // ?
             foreach(var user in db.users)
             {
                 if (user.UserName.Equals(userName))
@@ -59,24 +58,32 @@ namespace Ecommerce.Models
                 return 0;
             }
             else
-            {// Error when logging in, cartID query does not execute it just gets stored as a query.
-                var cartID = db.Database.SqlQuery<int>( 
-                    "SELECT shoppingCart.ShoppingCartID " +
-                    "FROM shoppingCart " +
-                    "WHERE shoppingCart.UserID = {0} ", 
-                    user.UserID).SingleAsync();
-                // int shopCartID = Convert.ToInt32(cartID);
-
+            {
+                int cartIDresult = GetShoppingCartID(user);
+                
                 // SQL query to get the number of items in a specified cart.
-                var numOfItems = db.Database.SqlQuery<string>(
-                    "SELECT shoppingCartProduct.ShoppingCartID, shoppingCartProduct.ProductID, shoppingCartProduct.Quantity, " +
-                    "product.ProductName, product.ProductDescription, product.Price " +
+                var numOfItems = db.Database.SqlQuery<int>(
+                    "SELECT count(*) from (SELECT shoppingCartProduct.ProductID " +
                     "FROM shoppingCartProduct inner join product on shoppingCartProduct.ProductID = product.ProductID " +
-                    "WHERE shoppingCartProduct.ShoppingCartID = @ShoppingCartID; ",
-                    cartID).SingleAsync();// shopCartID
-                numOfItems.Start();
-                return numOfItems;
+                    "WHERE shoppingCartProduct.ShoppingCartID = {0}) as num;",
+                    cartIDresult);// shopCartID
+                var result = numOfItems.SingleOrDefaultAsync().Result;
+                return result;
+                //return numOfItems.Result;
             }
+        }
+
+        public int GetShoppingCartID(users user)
+        {
+            // SQL query to get the shoppingCartID from a specific UserID.
+            var cartID = db.Database.SqlQuery<int>(
+                "SELECT shoppingCart.ShoppingCartID " +
+                "FROM shoppingCart " +
+                "WHERE shoppingCart.UserID = {0} ",
+                user.UserID).SingleAsync();
+            int cartIDresult = cartID.Result;
+
+            return cartIDresult;
         }
 
         [Key]

@@ -33,5 +33,7 @@ namespace Ecommerce.Models
         public virtual ICollection<shoppingCartProduct> shoppingCartProducts { get; set; }
 
         public virtual users user { get; set; }
+
+        ShoppingCartViewModel db = new ShoppingCartViewModel();
     }
 }

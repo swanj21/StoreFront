@@ -13,20 +13,8 @@
 <body>
     <!--Panel with store name on top, navbar on bottom-->
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2>
-                <span class="glyphicon glyphicon-yen"></span> Downtown Brown Ice Rink <span class="glyphicon glyphicon-yen"></span>
-                @{ 
-                      if (Session["LogInValid"].ToString().Equals("True"))
-                      {
-                        <a href="~/ShoppingCart" class="btn btn-default" style="float:right">
-                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                            Cart (@Session["ItemsInCart"])
-                            <!--0 will be replaced by how many items in cart-->
-                        </a>
-                     }
-                }
-            </h2>
+        <div id ="cartHeading" class="panel-heading">
+            @Html.Partial("_Cart", Convert.ToInt32(Session["ItemsInCart"]))
         </div>
         <div class="panel-body">
             <div class="navbar navbar-default">
@@ -43,10 +31,17 @@
                         <ul class="nav navbar-nav">
                         </ul>
                         @{
-                            if (Session["LogInValid"].ToString().Equals("True"))
+                            if (Session["LogInValid"] != null)
                             {
-                                <div class="navbar-brand" style="float:right;">Welcome @Session["Username"]</div>
+                                if (Session["LogInValid"].ToString().Equals("True"))
+                                {
+                                    <div class="navbar-brand" style="float:right;">Welcome @Session["Username"]</div>
+                                }
                             }
+                            else
+                            {
+                                Session["LogInValid"] = "False";
+                            } 
                         }
                     </div>
                 </div>
@@ -55,6 +50,7 @@
     </div>
     <div class="container body-content">
         @RenderBody()
+        <br /><br />
         <hr />
     </div>
     @Scripts.Render("~/bundles/jquery")

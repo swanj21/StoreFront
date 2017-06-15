@@ -1,0 +1,59 @@
+﻿@model Ecommerce.Models.ShoppingCartViewModel
+
+    <form id="cartForm">
+        <table id="cartDisplayTable">
+            <tbody>
+
+                @foreach (var item in Model.ShoppingCartItems)
+                {
+                    <tr id="productList" style="border:double; height:225px; width:500px" class="col-lg-6">
+                        <td>
+                            <b><u>Product:</u></b><br />
+                            <div id="productName">
+                                @item.ProductName <br />
+                            </div>
+                            <b><u>Quantity:</u></b><br />
+                            @Html.TextBox("Quantity" + item.ProductID.ToString(), item.Quantity, new { @class = "form-control", @style = "width: 50px" }) 
+                            
+                            <b><u>Price:</u></b><br />
+                            <div id="price">
+                                @item.Price <br /><br />
+                            </div>
+                            <input style="float:left;" type="button" value="Update" class="btn btn-info" onclick="GetNewQuantities(@item.ProductID)" /> or 
+                            <input id="removeFromCart" name="removeFromCart" type="button" value="Remove" class="btn btn-info" onclick="ajaxRemoveFromCart(@item.ProductID)" />
+                        </td>
+                        <td>
+                            <div id="image">
+                                <img src="@Url.Content(item.ImageFile)" alt="Picture" width="250" height="200" style="padding-left: 50px; padding-top: 15px; float:right;" />
+                            </div>
+                        </td>
+                    </tr>
+                }<!--End foreach-->
+
+            </tbody>
+        </table>
+    </form>
+
+@{ 
+    if (Model.ShoppingCartItems.Count == 0)
+    {
+        @Html.Label("You have no items in your cart!");
+    }
+}
+
+<script>
+   // function tempFunction() { var item = $("[id^='Quantity']").each(GetNewQuantities(item)); }
+
+    function GetNewQuantities(id) {
+        var num = $("[id^='Quantity" + id + "']").val(); // $("[id^='Quantity']").val() is passing the correct quantity of the first item in the cart.
+                $.ajax({
+                    type: "POST",
+                    data: { quantity: num, prodID: id },
+                    url: "@Url.Action("UpdateItems", "ShoppingCart")",
+                    success: function (result)
+                    {
+                        alert("Quantity updated!");// $("tr").length returns the correct number of items in the cart.
+                    }
+                })
+            }
+</script>

@@ -1,0 +1,23 @@
+﻿@model Ecommerce.Models.SearchViewModel
+
+@foreach (var item in Model.currentProdList)
+{
+    <div class="form-group col-lg-3">
+        <b>Product:</b>
+        @Html.DisplayFor(model => item.ProductName) <br />
+        <b>Price: $</b>
+        @Html.DisplayFor(model => item.Price) <br />
+        @{
+            if (Session["Username"] != null)
+            {
+                Ecommerce.Models.users user = new Ecommerce.Models.users();
+                user = user.FindUser(Session["Username"].ToString());
+                int shopCartID = user.GetShoppingCartID(user);
+                <input id="addToCart" type="button" value="Add To Cart" class="btn btn-info" onclick="ajaxAddToCart(@item.ProductID, @user.GetShoppingCartID(user))" />
+            }
+        }
+    </div>
+    <div class="form-group col-lg-3">
+        <img src="@Url.Content(item.ImageFile)" alt="Picture" width="200" height="200" /><br />
+    </div>
+}

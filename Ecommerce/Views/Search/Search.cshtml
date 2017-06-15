@@ -1,43 +1,52 @@
 ﻿<!-- SearchController - Search -->
-@model IEnumerable<Ecommerce.Models.product>
-
+@model Ecommerce.Models.SearchViewModel
 @{
     ViewBag.Title = "Search";
 }
 
-<h2>Product Information</h2>
-<hr />
+<h2>Search Results</h2>
 
-<div>
-    <dl class="dl-horizontal">
-        <!--foreach (var item in Model)
-        {-->
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-
-        <dd>
-            <!-- Html.DisplayFor(model => model.ProductName)-->
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            <!-- Html.DisplayFor(model => model.Price)-->
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageFile)
-        </dt>
-
-        <dd>
-            <!-- Html.DisplayFor(model => model.ImageFile)-->
-        </dd>
-        @Html.ActionLink("Add to Cart", "Index", "ShoppingCart", new { }, new { @class = "btn btn-info" })
-    </dl>
+<div class="form-group">
+    @using (Html.BeginForm())
+    {
+        <div class="form-group">
+            @Html.TextBox("searchItem", null)
+        </div>
+        <input type="submit" value="Search Products" />
+    }
 </div>
+
+<div id="productList" class="form-group table-bordered">
+    @Html.Partial("AddShoppingCartItem", Model)
+</div>
+
+@{
+    if (Model.currentProdList.Count == 0)
+    {
+        @Html.Label("No products found!")
+    }
+}
+
 <p>
     @Html.ActionLink("Back to Search", "Index")
 </p>
+
+@section Scripts
+{
+    <script>
+        function ajaxAddToCart(prodID, cartID) {
+            $.ajax({
+                type: "POST",
+                data: { itemID: prodID, shoppingCartID: cartID},
+                url: "@Url.Action("AddShoppingCartItem", "Search")",
+                success: function (result)
+                {
+                    $('#cartHeading').html(result);
+                }
+            })
+        }
+    </script>
+
+    <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>    
+}

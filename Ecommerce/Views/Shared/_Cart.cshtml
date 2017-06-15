@@ -1,0 +1,20 @@
+﻿@model int
+<h2>
+    <span class="glyphicon glyphicon-yen"></span> Downtown Brown Ice Rink <span class="glyphicon glyphicon-yen"></span>
+    @{
+        if (Session["LogInValid"] != null)
+        {
+            if (Session["LogInValid"].ToString().Equals("True"))
+            {
+            <a href="~/ShoppingCart" class="btn btn-default" style="float:right">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                Cart (<span id="shoppingCartCount">@Model.ToString()</span>)
+            </a>
+            }
+            else
+            {
+                Session["LogInValid"] = "False";
+            }
+        }
+    }
+</h2>
