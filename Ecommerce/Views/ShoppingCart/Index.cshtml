@@ -12,7 +12,7 @@
     @Html.Partial("_DisplayCart", Model)
 </div>
 
-<input type="button" value="Place Order" class="btn btn-primary" style="float:right; border: 2px dotted white;"/>
+@Html.ActionLink("Place Order", "PlaceOrder", "Order", new { }, new { @class = "btn btn-info" })
 
     <!-- Scripts -->
     @section scripts{

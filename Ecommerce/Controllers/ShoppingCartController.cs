@@ -57,6 +57,9 @@ namespace Ecommerce.Controllers
 
         public void UpdateItems(int quantity, int prodID)
         {
+            if (quantity < 1)
+                return;
+            
             user = user.FindUser(Session["Username"].ToString());
             cart.Database.ExecuteSqlCommand(
                 "UPDATE shoppingCartProduct " +

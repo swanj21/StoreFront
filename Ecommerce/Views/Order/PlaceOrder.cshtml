@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Place Order";
+    StoreFront.Data.users user = new StoreFront.Data.users();
+    StoreFront.Data.StoreFrontDataModel model = new StoreFront.Data.StoreFrontDataModel(); // Use model.state within a foreach loop to populate a dropdown for the user to choose a state.
+    user = user.FindUser(Session["Username"].ToString());
+}
+
+<h2>Place your order</h2>
+<hr />
+
+<div class="dropdown">
+    <button class="btn btn-info dropdown-toggle" type="button" id="dropDownAddress" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Addresses <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropDownAddress">
+        @foreach (var item in user.address)
+            {
+                <li>@Html.ActionLink(item.Address1 + " " + item.Address2 + " " + item.Address3 + " " + item.City + " " + item.state.StateAbbrev + " " + item.ZipCode, "ConfirmOrder", "Order", new { addressID = item.AddressID}, new { @style = "font-size: 12px;" })</li>
+            }
+        <li role="separator" class="divider"></li>
+        <!-- Triggering the Modal -->
+        <li><a href="#" data-toggle="modal" data-target="#newAddressModal">Enter new address</a></li>
+    </ul>
+</div>
+
+<div class="modal fade" role="dialog" aria-labelledby="newAddressModal" id="newAddressModal" style="display:none">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLabel">Enter new address</h4>
+            </div>
+            <div class="modal-body">
+                <!-- BODY STUFF HERE! -->
+                @using (Html.BeginForm("PlaceOrder", "Order"))
+                {
+                    <table>
+                        <tr>
+                            <td>
+                                Address 1:
+                            </td>
+                            <td>
+                                @Html.TextBox("address1", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Address 2:
+                            </td>
+                            <td>
+                                @Html.TextBox("address2", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Address 3:
+                            </td>
+                            <td>
+                                @Html.TextBox("address3", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                City:
+                            </td>
+                            <td>
+                                @Html.TextBox("addressCity", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                State:
+                            </td>
+                            <td>
+                                @Html.DropDownList("addressState", EnumHelper.GetSelectList(typeof(StoreFront.Data.StoreFrontDataModel.states)), "Select State", new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                ZipCode:
+                            </td>
+                            <td>
+                                @Html.TextBox("addressZip", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Is this your <b>billing</b> address?
+                            </td>
+                            <td>
+                                @Html.CheckBox("addressBilling", new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Is this your <b>shipping</b> address?
+                            </td>
+                            <td>
+                                @Html.CheckBox("addressShipping", new { @class = "form-control" })
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="Save Address" id="btnSubmit" class="btn btn-info"/>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Need to use javascript to get the information from the boxes and pass it to a new function -->
+@section scripts
+{
+    <script>
+        function compileAddress() {
+            var address1 = $('#address1').val()
+            var address2 = $('#address2').val()
+            var address3 = $('#address3').val()
+            var addressCity = $('#addressCity').val()
+            var addressState = $('#addressState').val()
+            var addressZip = $('#addressZip').val()
+            var addressBilling = $('#addressBilling').prop('checked')
+            var addressShipping = $('#addressShipping').prop('checked')
+            alert(address1 + ' ' + address2 + ' ' + address3 + ' ' + addressCity + ' ' + addressState + ' ' + addressZip + ' ' + addressBilling + ' ' + addressShipping)
+    </script>
+
+    <script>
+        function chosenAddress(addID)
+        {
+            $.data("addressID", addID);
+
+            window.location.href = '@Url.Action("ConfirmOrder", "Order")?addressID=' + $(this).data("addressID");
+        };
+    </script>
+}

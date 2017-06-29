@@ -1,0 +1,20 @@
+﻿@model StoreFront.Data.users
+
+<table>
+    <tr style="border: 2px double; text-align:center">
+        <td style="border:2px double; padding: 5px 5px"><b>Address 1</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>Address 2</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>Address 3</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>City</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>State</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>Zip</b></td>
+    </tr>
+    <tr style="text-align:center">
+        <td style="border:1px dotted; padding: 5px 5px">@Model.address.First().Address1</td>
+        <td style="border:1px dotted; padding: 5px 5px">@Model.address.First().Address2</td>
+        <td style="border:1px dotted; padding: 5px 5px">@Model.address.First().Address3</td>
+        <td style="border:1px dotted; padding: 5px 5px">@Model.address.First().City</td>
+        <td style="border:1px dotted; padding: 5px 5px">@Model.address.First().state.StateAbbrev</td>
+        <td style="border:1px dotted; padding: 5px 5px">@Model.address.First().ZipCode</td>
+    </tr>
+</table>

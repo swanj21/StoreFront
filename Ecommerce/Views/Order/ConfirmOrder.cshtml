@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Confirm Order";
+    float subtotal = 0.0f;
+    int cartID = 0;
+}
+
+<!-- 
+    This page should show in read-only form the address and grid of the order contents.
+    Then there will be a button called "Place Order" that allows the user to place their order and take them to a confirmation page
+-->
+
+@{ 
+    StoreFront.Data.address address = ViewBag.address;
+    List<StoreFront.Data.shoppingCartProduct> prod = ViewBag.products;
+}
+<!-- Displaying the address that was selected on the previous page -->
+
+<div id="address">
+    <table style="height:auto; width:auto;" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <tr style="text-align:center;"><td><h2>Address</h2></td></tr>
+        <tr style="border: 2px double">
+            <td style="width:75%;">
+                <i>
+                    @address.Address1 <br /> 
+
+                    @{
+                        if (address.Address2 != "")
+                        {
+                            @address.Address2 <br />
+                        }
+                        if (address.Address3 != "")
+                        {
+                            @address.Address3 <br />
+                        }
+                    }
+
+                    @address.City, @address.state.StateAbbrev, @address.ZipCode
+                </i>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="products">
+    <table style="float:right; height:25%; width: 30%; text-align:center">
+        <tr><td colspan="3" style="text-align:center"><h2>Product List</h2></td></tr>
+        <tr><td><b>Product</b></td><td><b>Quantity</b></td><td><b>Price</b></td></tr>
+        @foreach (var item in prod)
+        {
+            if (cartID == 0)
+            {
+                cartID = item.ShoppingCartID.Value;
+            }
+
+            <tr style="border: 2px double">
+                <td>
+                    @item.product.ProductName
+                </td>
+                <td>
+                    @item.Quantity
+                </td>
+                <td>
+                    @item.product.Price
+                </td>
+                @{subtotal += (float)(item.product.Price * item.Quantity); }
+            </tr>
+        }
+        <tr><td> </td></tr>
+        <tr>
+            <td colspan="3" style="text-align:center; border: 2px double">
+                <b>Subtotal:</b> @subtotal
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align:right">
+                <br />
+                <!-- Button to let the user place their order -->
+                @Html.ActionLink("Place Order", "OrderSubmitted", "Order", new { cartID=cartID,userID=address.UserID,addressID=address.AddressID,total=subtotal }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    </table>
+</div>

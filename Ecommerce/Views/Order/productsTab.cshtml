@@ -1,0 +1,32 @@
+﻿@model StoreFront.Data.orders
+
+@{ float total = 0.0f; }
+
+<table>
+    <tr style="border: 2px double; text-align:center">
+        <td style="border:2px double; padding: 5px 5px"><b>Order Product ID</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>Product ID</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>Product Name</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>Quantity</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>Price</b></td>
+        <td style="border:2px double; padding: 5px 5px"><b>Item Total</b></td>
+    </tr>
+
+    @foreach (var item in Model.orderProduct.ToList())
+    {
+        { total = (float)(item.Price * item.Quantity); }
+        <tr style="text-align:center">
+            <td style="border:1px dotted; padding: 5px 5px">@item.OrderProductID</td>
+            <td style="border:1px dotted; padding: 5px 5px">@item.product.ProductID</td>
+            <td style="border:1px dotted; padding: 5px 5px">@item.product.ProductName</td>
+            <td style="border:1px dotted; padding: 5px 5px">@Html.TextBox("Quantity" + item.ProductID.ToString(), item.Quantity, new { @class = "form-control", @style = "width: 50px; text-align:center;" }) </td>
+            <td style="border:1px dotted; padding: 5px 5px">@item.Price</td>
+            <td style="border:1px dotted; padding: 5px 5px">@total </td>
+
+            <td>
+                &nbsp;<input type="button" value="Update" class="btn btn-info" onclick="ajaxUpdateQuantity(@item.OrderProductID, @item.ProductID, @item.OrderID)" /> or
+                <input type="button" value="Remove" class="btn btn-info" onclick="ajaxRemoveFromOrder(@item.OrderProductID, @item.OrderID)" />
+            </td>
+        </tr>
+    }
+</table>

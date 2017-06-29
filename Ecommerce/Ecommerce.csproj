@@ -228,6 +228,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -307,6 +308,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ProductImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -328,6 +330,13 @@
     <Content Include="Views\Search\AddShoppingCartItem.cshtml" />
     <Content Include="Views\Shared\_Cart.cshtml" />
     <Content Include="Views\ShoppingCart\_DisplayCart.cshtml" />
+    <Content Include="Views\Order\OrdersAdmin.cshtml" />
+    <Content Include="Views\Order\OrderAdminDetails.cshtml" />
+    <Content Include="Views\Shared\_customerAddress.cshtml" />
+    <Content Include="Views\Order\PlaceOrder.cshtml" />
+    <Content Include="Views\Order\ConfirmOrder.cshtml" />
+    <Content Include="Views\Order\OrderSubmitted.cshtml" />
+    <Content Include="Views\Order\productsTab.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -337,6 +346,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StoreFront.Data\StoreFront.Data.csproj">
+      <Project>{4b690173-9d5f-417a-ac01-658176d82ee3}</Project>
+      <Name>StoreFront.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

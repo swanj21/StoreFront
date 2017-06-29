@@ -4,13 +4,14 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cpMainContentLeft" runat="server">
     <asp:Label ID="ProductListLabel" runat="server" font-underline="true" font-italic="true" Text="<h2>Product List</h2>"></asp:Label>
-    <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AutoGenerateColumns="False" DataKeyNames="ProductID" DataSourceID="eCommerceDB_GV" OnRowEditing="GridView1_RowEditing">
+    <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AutoGenerateColumns="False" DataKeyNames="ProductID" DataSourceID="eCommerceDB_GV" OnRowEditing="GridView1_RowEditing" AllowSorting="True">
         <Columns>
-            <asp:CommandField ShowEditButton="True" />
+            <asp:CommandField ShowEditButton="True" EditText="View"/>
             <asp:BoundField DataField="ProductID" HeaderText="ProductID" InsertVisible="False" ReadOnly="True" SortExpression="ProductID" />
             <asp:BoundField DataField="ProductName" HeaderText="ProductName" SortExpression="ProductName" />
             <asp:CheckBoxField DataField="IsPublished" HeaderText="IsPublished" SortExpression="IsPublished" />
             <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" />
+            <asp:ImageField DataImageUrlField="ImageFile" DataImageUrlFormatString="~/ProductImages/{0}" ControlStyle-Height="50px" ControlStyle-Width="50px" HeaderText="Image" SortExpression="ImageFile"/>
         </Columns>
     </asp:GridView>
     <asp:SqlDataSource ID="eCommerceDB_GV" runat="server" ConnectionString="<%$ ConnectionStrings:eCommerceDBConnectionString %>" SelectCommand="spGetProducts" SelectCommandType="StoredProcedure" UpdateCommand="spUpdateProduct" UpdateCommandType="StoredProcedure">
@@ -23,6 +24,7 @@
             <asp:Parameter Name="Description" Type="String" />
             <asp:Parameter Name="IsPublished" Type="Boolean" />
             <asp:Parameter Name="Price" Type="Decimal" />
+            <asp:Parameter Name="ImageFile" Type="String" />
         </UpdateParameters>
     </asp:SqlDataSource>
 </asp:Content>

@@ -12,7 +12,7 @@ namespace Ecommerce.Controllers
     {
         SearchViewModel SVdb = new SearchViewModel();
 
-        // GET: Search(Search/Index) This gets called when the page is first queried.
+        // GET: Search(Search/Index)
         public ActionResult Index()
         {
             ViewBag.Title = "Search";
@@ -33,7 +33,7 @@ namespace Ecommerce.Controllers
         public ActionResult Search(SearchViewModel svm)
         {
             ViewBag.Title = "Products";
-            return View(svm); // This needs an IEnumerable product object passed to it.
+            return View(svm);
         }
 
         [HttpPost]

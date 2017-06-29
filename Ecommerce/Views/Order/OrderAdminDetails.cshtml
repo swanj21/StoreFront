@@ -1,0 +1,93 @@
+﻿@model int
+@{
+    ViewBag.Title = "Order Admin Details";
+}
+
+<h2>Order Admin Details</h2>
+
+@{
+    string temp = Request.QueryString.Get("orderID");
+    StoreFront.Data.StoreFrontDataModel db = new StoreFront.Data.StoreFrontDataModel();
+    StoreFront.Data.orders order = db.orders.Find(Model);
+}
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#general">General</a></li>
+        <li><a href="#address">Address</a></li>
+        <li><a href="#products">Products</a></li>
+    </ul>
+    <br />
+    <div class="tab-content">
+        <!--General Tab-->
+        <div id="general" class="tab-pane fade in active">
+            <table>
+                <tr style="border: 2px double; text-align:center;">
+                    <td style="border:2px double; padding: 5px 5px"><b>Order ID</b></td>
+                    <td style="border:2px double; padding: 5px 5px"><b>Username</b></td>
+                    <td style="border:2px double; padding: 5px 5px"><b>Email Address</b></td>
+                    <td style="border:2px double; padding: 5px 5px"><b>Order Date</b></td>
+                    <td style="border:2px double; padding: 5px 5px"><b>Total</b></td>
+                    <td style="border:2px double; padding: 5px 5px"><b>Status</b></td>
+                </tr>
+                <tr style= "text-align: center">
+                    <td style="border:1px dotted; padding: 5px 5px">@order.OrderID</td>
+                    <td style="border:1px dotted; padding: 5px 5px">@order.users.UserName</td>
+                    <td style="border:1px dotted; padding: 5px 5px">@order.users.EmailAddress</td>
+                    <td style="border:1px dotted; padding: 5px 5px">@order.OrderDate</td>
+                    <td style="border:1px dotted; padding: 5px 5px">@order.Total</td>
+                    <td style="border:1px dotted; padding: 5px 5px">@order.status.StatusDescription</td>
+                    <td>&nbsp;@Html.ActionLink("Increase Status", "IncreaseStatus", "Order", new { orderID = temp }, new { @class="btn btn-info" })</td>
+                </tr>
+            </table>
+        </div>
+
+        <!--Address Tab-->
+        <div id="address" class="tab-pane fade">
+            @Html.Partial("_customerAddress", order.users)
+        </div>
+
+        <!--Products Tab-->
+        <div id="products" class="tab-pane fade">
+            @Html.Partial("productsTab", order)
+        </div>
+    </div>
+</div>
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        $(".nav-tabs a").click(function () {
+            $(this).tab('show');
+        });
+    });
+</script>
+    <script>
+        function ajaxUpdateQuantity(orderProductID, id, orderID) {
+            var num = $("[id^='Quantity" + id + "']").val();
+                $.ajax({
+                    type: "POST",
+                    data: { prodID: orderProductID, quantity: num, ordID: orderID },
+                    url: "@Url.Action("UpdateQuantity", "Order")",
+                    success: function (result)
+                    {
+                        if (num < 1) {
+                            alert("Quantity must be greater than 0!");
+                        }
+                        $('#products').html(result)
+                    }
+                })
+        }
+    </script>
+    <script>
+        function ajaxRemoveFromOrder(orderProductID, ordID) {
+                $.ajax({
+                    type: "POST",
+                    data: { orderProdID: orderProductID, orderID: ordID },
+                    url: "@Url.Action("RemoveFromOrder", "Order")",
+                    success: function (result)
+                    {
+                        $('#products').html(result)
+                    }
+                })
+        }
+    </script>
+}

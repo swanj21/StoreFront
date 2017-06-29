@@ -18,5 +18,25 @@ namespace Ecommerce
         {
             Response.Redirect("ProductsAdmin.aspx");
         }
+
+        protected void UploadFileButton_Click(object sender, EventArgs e)
+        {
+            if (ImageFileUpload.HasFile)
+            {
+                try
+                {
+                    ImageFileUpload.SaveAs(Server.MapPath("~\\ProductImages\\" + ImageFileUpload.FileName));
+                    infoLabel.Text = "File successfully uploaded! <br><br> <b><u>FileName</u></b>: " + ImageFileUpload.FileName;
+                }
+                catch (Exception ex)
+                {
+                    infoLabel.Text = "Error: " + ex.Message.ToString();
+                }
+            }
+            else
+            {// Nothing was selected in the browse box
+                infoLabel.Text = "No file selected to upload!";
+            }
+        }
     }
 }

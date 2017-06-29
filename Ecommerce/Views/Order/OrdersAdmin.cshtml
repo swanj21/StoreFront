@@ -1,0 +1,29 @@
+﻿<!-- model StoreFront.Data.StoreFrontDataModel -->
+
+@{
+    StoreFront.Data.StoreFrontDataModel db = new StoreFront.Data.StoreFrontDataModel();
+    ViewBag.Title = "OrdersAdmin";
+}
+
+<h2>Order Administration</h2>
+
+<table>
+    <tr style="text-align:center">
+        <td style="border:2px double; padding:2px 2px 2px 2px;"><i>Order ID</i></td>
+        <td style="border:2px double; padding:2px 2px 2px 2px;"><i>Username</i></td>
+        <td style="border:2px double; padding:2px 2px 2px 2px;"><i>Order date</i></td>
+        <td style="border:2px double; padding:2px 2px 2px 2px;"><i>Total</i></td>
+        <td style="border:2px double; padding:2px 2px 2px 2px;"><i>Status</i></td>
+    </tr>
+    @foreach (var item in db.orders)
+    {
+        <tr>
+            <td style="border:1px double; padding:2px 2px 2px 2px;">@Html.DisplayFor(football => item.OrderID)</td>
+            <td style="border:1px double; padding:2px 2px 2px 2px;">@Html.DisplayFor(model => item.users.UserName)</td>
+            <td style="border:1px double; padding:2px 2px 2px 2px;">@Html.DisplayFor(model => item.OrderDate)</td>
+            <td style="border:1px double; padding:2px 2px 2px 2px;">@Html.DisplayFor(model => item.Total)</td>
+            <td style="border:1px double; padding:2px 2px 2px 2px;">@Html.DisplayFor(model => item.status.StatusDescription)</td>
+            <td>&nbsp;@Html.ActionLink("Edit", "OrderAdminDetails", new { orderID = item.OrderID })</td>
+        </tr>
+    }
+</table>

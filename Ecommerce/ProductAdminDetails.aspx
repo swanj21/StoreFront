@@ -10,12 +10,14 @@
         <EditRowStyle BackColor="#999999" />
         <FieldHeaderStyle BackColor="#E9ECF1" Font-Bold="True" />
         <Fields>
-            <asp:BoundField DataField="ProductID" HeaderText="ID" ReadOnly="True" SortExpression="ProductID" />
-            <asp:BoundField DataField="ProductName" HeaderText="Name" SortExpression="ProductName" />
-            <asp:BoundField DataField="ProductDescription" HeaderText="Description" SortExpression="ProductDescription" />
+            <asp:BoundField DataField="ProductID" HeaderText="ProductID" ReadOnly="True" SortExpression="ProductID" InsertVisible="False" />
+            <asp:BoundField DataField="ProductName" HeaderText="ProductName" SortExpression="ProductName" />
             <asp:CheckBoxField DataField="IsPublished" HeaderText="IsPublished" SortExpression="IsPublished" />
+            <asp:BoundField DataField="ProductDescription" HeaderText="ProductDescription" SortExpression="ProductDescription" />
+<asp:BoundField DataField="Quantity" HeaderText="Quantity" SortExpression="Quantity"></asp:BoundField>
             <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" />
-            <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ButtonType="Button"/>
+            <asp:ImageField ControlStyle-Height="100px" ControlStyle-Width="100px" DataImageUrlField="ImageFile" DataImageUrlFormatString="~/ProductImages/{0}"  HeaderText="ImageFile" SortExpression="ImageFile" />
+            <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" />
         </Fields>
         <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
         <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
@@ -32,13 +34,20 @@
         <UpdateParameters>
             <asp:Parameter Name="ProductID" Type="Int32" />
             <asp:Parameter Name="ProductName" Type="String" />
-            <asp:Parameter Name="ProductDescription" Type="String" />
+            <asp:Parameter Name="Description" Type="String" />
             <asp:Parameter Name="IsPublished" Type="Boolean" />
             <asp:Parameter Name="Price" Type="Decimal" />
+            <asp:Parameter Name="ImageFile" Type="String" />
         </UpdateParameters>
     </asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cpMainContentRight" runat="server">
+    Upload Image File:
+    <asp:FileUpload ID="ImageFileUpload" runat="server" />
+    <br />
+    <asp:Button ID="UploadFileButton" runat="server" Text="Upload File" OnClick="UploadFileButton_Click" />
+    <br />
+    <asp:Label ID="infoLabel" runat="server" Text=""></asp:Label>
 
 </asp:Content>

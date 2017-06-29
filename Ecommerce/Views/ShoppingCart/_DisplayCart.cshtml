@@ -13,8 +13,7 @@
                                 @item.ProductName <br />
                             </div>
                             <b><u>Quantity:</u></b><br />
-                            @Html.TextBox("Quantity" + item.ProductID.ToString(), item.Quantity, new { @class = "form-control", @style = "width: 50px" }) 
-                            
+                            @Html.TextBox("Quantity" + item.ProductID.ToString(), item.Quantity, new { @class = "form-control", @style = "width: 50px" })
                             <b><u>Price:</u></b><br />
                             <div id="price">
                                 @item.Price <br /><br />
@@ -24,12 +23,11 @@
                         </td>
                         <td>
                             <div id="image">
-                                <img src="@Url.Content(item.ImageFile)" alt="Picture" width="250" height="200" style="padding-left: 50px; padding-top: 15px; float:right;" />
+                                <img src="~/ProductImages/@item.ImageFile" alt="Picture" width="250" height="200" style="padding-left: 50px; padding-top: 15px; float:right;" />
                             </div>
                         </td>
                     </tr>
                 }<!--End foreach-->
-
             </tbody>
         </table>
     </form>
@@ -42,8 +40,6 @@
 }
 
 <script>
-   // function tempFunction() { var item = $("[id^='Quantity']").each(GetNewQuantities(item)); }
-
     function GetNewQuantities(id) {
         var num = $("[id^='Quantity" + id + "']").val(); // $("[id^='Quantity']").val() is passing the correct quantity of the first item in the cart.
                 $.ajax({
@@ -52,7 +48,12 @@
                     url: "@Url.Action("UpdateItems", "ShoppingCart")",
                     success: function (result)
                     {
-                        alert("Quantity updated!");// $("tr").length returns the correct number of items in the cart.
+                        if (num < 1) {
+                            alert("Quantity must be greater than 0!");
+                        }
+                        else {
+                            alert("Quantity updated!");// $("tr").length returns the correct number of items in the cart.
+                        }
                     }
                 })
             }
