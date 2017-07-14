@@ -9,6 +9,8 @@ namespace Ecommerce.Models
     [Table("shoppingCart")]
     public partial class shoppingCart
     {
+        ShoppingCartViewModel db = new ShoppingCartViewModel();
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public shoppingCart()
         {
@@ -33,7 +35,5 @@ namespace Ecommerce.Models
         public virtual ICollection<shoppingCartProduct> shoppingCartProducts { get; set; }
 
         public virtual users user { get; set; }
-
-        ShoppingCartViewModel db = new ShoppingCartViewModel();
     }
 }

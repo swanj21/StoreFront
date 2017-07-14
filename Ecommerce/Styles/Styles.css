@@ -1,13 +1,13 @@
-﻿#HeaderLeft {
+﻿#LeftHeader {
     background-color: #f0f0fa;
     font-size: 20px;
     width: 430px;
     height: 40px;
     float: left;
 }
-#HeaderRight {
+#RightHeader {
     background-color: #f0f0fa;
-    font-size: 18px;
+    font-size: 20px;
     width: 430px;
     height: 40px;
     float: right;

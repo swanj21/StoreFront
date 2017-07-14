@@ -1,4 +1,4 @@
-﻿@model Ecommerce.Models.users
+﻿@model StoreFront.Data.users
 
 @{
     ViewBag.Title = "Register";
@@ -10,7 +10,7 @@
 <div class="text-danger bg-danger">@ViewBag.UserExists</div>
 
 <!--Provide the user with fields for: Username, Password, Confirm password, Email address.
-    Implement required validators on all fields <- This needs to be reworked, nothing is picking up.
+    Implement required validators on all fields
     Implement a compare b/w Password and Confirm
     Implement a regex validator to check if email is valid-->
 <table>

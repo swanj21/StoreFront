@@ -2,7 +2,7 @@
     ViewBag.Title = "Place Order";
     StoreFront.Data.users user = new StoreFront.Data.users();
     StoreFront.Data.StoreFrontDataModel model = new StoreFront.Data.StoreFrontDataModel(); // Use model.state within a foreach loop to populate a dropdown for the user to choose a state.
-    user = user.FindUser(Session["Username"].ToString());
+    user = user.FindUser(Session["UserName"].ToString());
 }
 
 <h2>Place your order</h2>

@@ -10,12 +10,13 @@ using Ecommerce.Models;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using StoreFront.Data;
 
 namespace Ecommerce.Controllers
 {
     public class UsersController : Controller
     {
-        private CustomerBaseViewModel db = new CustomerBaseViewModel();
+        SqlSecurityManager sqlSM = new SqlSecurityManager();
 
         // GET: Users 
         public ActionResult Index()
@@ -31,31 +32,20 @@ namespace Ecommerce.Controllers
 
         // POST: Login
         [HttpPost]
-        public ActionResult Login(users user)
-        {
-            users dbUser = user.FindUser(user.UserName);
-            if (dbUser == null)
-            {
+        public ActionResult Login(StoreFront.Data.users user)
+        {// works with new data source
+            StoreFront.Data.users dbUser = sqlSM.LoadUser(user.UserName);
+
+            if (!sqlSM.AuthenticateUser(user.UserName, user.Password))
+            {// If user was not authenticated
                 ViewBag.LoginMessage = "Error: Login failed.";
                 return View();
             }
-            // User was found
-            string comparedPass = user.Password; // Not hashed pw
-            string dbPass = dbUser.Password; // Hashed pw
-
-            string[] salt = dbPass.Split(':');
-            if (HashPassword(user.Password, salt[0]).Equals(dbPass))
-            {
+            
                 Session.Add("ItemsInCart", Convert.ToInt32(user.GetItemsInCart(dbUser))); // Save items in cart to session
-                Session.Add("Username", user.UserName); // Save username to session
                 Session.Add("UserID", user.UserID); // Save userID to session
                 Session.Add("LogInValid", "True"); // Save the valid login to session
                 return RedirectToAction("LoginSuccessful");
-            }
-            else
-                ViewBag.LoginMessage = "Error: Login failed.";
-
-            return View();
         }
 
         // GET: LoginSuccessful
@@ -65,33 +55,18 @@ namespace Ecommerce.Controllers
         }
         // GET: Register
         public ActionResult Register()
-        {// Error gets thrown here if I pass either a user object or the db object.
+        {
             return View();
         }
 
         // POST: Register
         [HttpPost]
-        public ActionResult Register(users user)
+        public ActionResult Register(StoreFront.Data.users user)
         {
-            // Check if username is taken
-            if (user.UserAlreadyExist(user.UserName))
-            {
-                ViewBag.UserExists = "Username already exists.";
-                return View();
-            }
-
-            if (ModelState.IsValid)
-            {
-                user.CreatedBy = "admin";
-                user.DateCreated = DateTime.Now;
-                user.IsAdmin = false;
-                user.Password = HashPassword(user.Password);
-                user.ConfirmPass = user.Password;
-                db.users.Add(user);
-                db.SaveChanges();
-
+            if (sqlSM.RegisterUser(user))
                 return RedirectToAction("ConfirmRegister");
-            }
+
+            ViewBag.UserExists = "User already exists";
             return View();
         }
 
@@ -118,15 +93,6 @@ namespace Ecommerce.Controllers
             byte[] hash = rfc.GetBytes(20);
             byte[] newSalt = rfc.Salt;
             return Convert.ToBase64String(newSalt) + ":" + Convert.ToBase64String(hash);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -97,6 +97,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -256,6 +257,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="InvSvcTest.cs" />
     <Compile Include="Models\address.cs" />
     <Compile Include="Models\CustomerBaseViewModel.cs" />
     <Compile Include="Models\order.cs" />
@@ -351,6 +353,10 @@
     <ProjectReference Include="..\StoreFront.Data\StoreFront.Data.csproj">
       <Project>{4b690173-9d5f-417a-ac01-658176d82ee3}</Project>
       <Name>StoreFront.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StoreFront.InventoryService\StoreFront.InventoryService.csproj">
+      <Project>{9f0d4e69-f6f1-40f2-9e5a-533fe6ed909b}</Project>
+      <Name>StoreFront.InventoryService</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

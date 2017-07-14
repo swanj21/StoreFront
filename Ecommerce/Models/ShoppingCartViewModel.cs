@@ -11,7 +11,7 @@ namespace Ecommerce.Models
         public CustomerBaseViewModel db = new CustomerBaseViewModel();
 
         public void PopulateCart(int cartID)
-        {// Populate the ShoppingCartItems list
+        {// Populate the ShoppingCartItems list, MAKE A PARAMETERIZED QUERY
             var products = Database.SqlQuery<product>(
                 "SELECT product.ProductID, product.ProductDescription, product.IsPublished, " +
                 "product.ProductName, product.ImageFile, shoppingCartProduct.Quantity, product.Price, " +

@@ -46,8 +46,8 @@ namespace Ecommerce.Controllers
 
         public PartialViewResult AddShoppingCartItem(int itemID, int shoppingCartID, string searchStr)
         {
-            users curUser = new users();
-            curUser = curUser.FindUser(Session["Username"].ToString());
+            StoreFront.Data.users curUser = new StoreFront.Data.users();
+            curUser = curUser.FindUser(Session["UserName"].ToString());
             // True if the quantity of an item in the cart was updated, false if a new item was added.
             bool quantityUpdated = SVdb.AddShoppingCartItem(itemID, shoppingCartID, curUser);
 

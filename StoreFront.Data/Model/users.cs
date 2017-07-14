@@ -20,6 +20,9 @@ namespace StoreFront.Data
 
         public users FindUser(string userName)
         {
+            if (userName.Equals(null))
+                throw new NullReferenceException("Username cannot be null");
+
             foreach (var user in db.users)
             {
                 if (user.UserName.Equals(userName))
@@ -30,6 +33,14 @@ namespace StoreFront.Data
 
         public int GetShoppingCartID(users user)
         {
+            if (user.Equals(null))
+                throw new NullReferenceException("users object is null");
+
+            // If the user does not have a shopping cart
+            if (user.shoppingCart.Count == 0)
+                return -1;
+
+            // MAKE THIS A PARAMETERIZED QUERY
             // SQL query to get the shoppingCartID from a specific UserID.
             var cartID = db.Database.SqlQuery<int>(
                 "SELECT shoppingCart.ShoppingCartID " +
@@ -43,6 +54,10 @@ namespace StoreFront.Data
 
         public int GetItemsInCart(users user)
         {
+            // MAKE THE SQL A PARAMETERIZED QUERY
+            if (user.Equals(null))
+                throw new NullReferenceException("users object is null");
+
             int cartIDresult = GetShoppingCartID(user);
 
             var numOfItems = db.Database.SqlQuery<int>(
@@ -62,6 +77,11 @@ namespace StoreFront.Data
 
         [StringLength(50)]
         public string Password { get; set; }
+
+        [Compare("Password")]
+        [Display(Name = "Validate Password")]
+        [NotMapped]
+        public string ConfirmPass { get; set; }
 
         [StringLength(255)]
         public string EmailAddress { get; set; }

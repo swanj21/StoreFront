@@ -13,7 +13,7 @@ namespace Ecommerce.Models
            @return IEnumerable<product> with the name like searchString.
         */
         public void SearchProducts(string searchString)
-        {
+        { // -- REMOVE AND MAKE PARAMETERIZED QUERY -- 
             var dbProductList = Database.SqlQuery<product>(
                 "SELECT * " +
                 "FROM product " +
@@ -22,8 +22,8 @@ namespace Ecommerce.Models
             currentProdList = dbProductList.ToList();
         }
 
-        public bool AddShoppingCartItem(int productID, int shoppingCartID, users user)
-        {
+        public bool AddShoppingCartItem(int productID, int shoppingCartID, StoreFront.Data.users user)
+        { // -- REMOVE AND MAKE PARAMETERIZED QUERY --  
             Object queryResult = null;
             queryResult = Database.SqlQuery<Object>(
                 "select * " +

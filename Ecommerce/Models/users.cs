@@ -6,6 +6,7 @@ namespace Ecommerce.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
     using System.Data.Entity.Spatial;
+    using StoreFront.Data;
 
     public partial class users
     {
@@ -17,9 +18,9 @@ namespace Ecommerce.Models
             shoppingCart = new HashSet<shoppingCart>();
         }
 
-        CustomerBaseViewModel db = new CustomerBaseViewModel();
+        StoreFrontDataModel db = new StoreFrontDataModel();
 
-        public users FindUser(string userName)
+        public StoreFront.Data.users FindUser(string userName)
         {
             foreach(var user in db.users)
             {

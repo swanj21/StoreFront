@@ -24,6 +24,17 @@
                         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Search", "Index", "Search", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Profile", "Index", "Users", new { area = "" }, new { @class = "navbar-brand" })
+                        <!-- Make these only appear if the user is an admin -->
+                        @{
+                            StoreFront.Data.SqlSecurityManager sqlSM = new StoreFront.Data.SqlSecurityManager();
+                            if (sqlSM.IsAdmin())
+                            {
+                                <div class="navbar-brand">|</div>
+                                <a href="~/Default.aspx" class="navbar-brand">Admin</a>
+                                @Html.ActionLink("OrderAdmin", "OrdersAdmin", "Order", new { area = "" }, new { @class = "navbar-brand" })
+                            }
+                        }
+
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
@@ -33,7 +44,7 @@
                             {
                                 if (Session["LogInValid"].ToString().Equals("True"))
                                 {
-                                    <div class="navbar-brand" style="float:right;">Welcome @Session["Username"]</div>
+                                    <div class="navbar-brand" style="float:right;">Welcome @Session["UserName"]</div>
                                 }
                             }
                             else

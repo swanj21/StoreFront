@@ -41,6 +41,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,8 +62,10 @@
     <Compile Include="Model\shoppingCartProduct.cs" />
     <Compile Include="Model\state.cs" />
     <Compile Include="Model\status.cs" />
+    <Compile Include="SqlSecurityManager.cs" />
     <Compile Include="StoreFrontDataModel.cs" />
     <Compile Include="Model\users.cs" />
+    <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -45,9 +45,9 @@ namespace Ecommerce.Controllers
             add.ZipCode = addressZip;
             add.IsBilling = addressBilling;
             add.IsShipping = addressShipping;
-            add.CreatedBy = Session["Username"].ToString();
+            add.CreatedBy = Session["UserName"].ToString();
             add.DateCreated = DateTime.Now;
-            string tempName = Session["Username"].ToString();
+            string tempName = Session["UserName"].ToString();
             add.UserID = db.users.Where(usr => usr.UserName.Equals(tempName)).SingleOrDefault().UserID;
 
             db.address.Add(add);
@@ -61,7 +61,7 @@ namespace Ecommerce.Controllers
             // Get the address from the addressID in the data model db.
             address add = db.address.Find(addressID); // Full address.
 
-            string tempName = Session["Username"].ToString();
+            string tempName = Session["UserName"].ToString();
             users user = db.users.Where(uName => uName.UserName.Equals(tempName)).SingleOrDefault();
             List<shoppingCartProduct> products = db.getShoppingCartProducts(db.getShoppingCartID(user.UserID));
 

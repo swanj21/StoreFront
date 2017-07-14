@@ -5,17 +5,52 @@ namespace StoreFront.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Collections.Generic;
+    using System.Security.Cryptography;
 
     public partial class StoreFrontDataModel : DbContext
     {
+        // Test error messages
+        public const string TOTALLESSTHANZERO = "Total value is less than zero";
+        public const string INVALIDID = "Invalid ID, must be greater than zero";
+
         public StoreFrontDataModel()
             : base("name=StoreFrontDataModel")
         {
         }
 
+        // Check if a user exists in the database already
+        public bool UserAlreadyExist(users user)
+        {
+            return ((users.Find(user.UserID)) != null);
+        }
+
+        // Hash the user's password
+        public string HashPassword(string pass)
+        {
+            // Generate hash, automatic 32 byte salt
+            Rfc2898DeriveBytes rfc = new Rfc2898DeriveBytes(pass, 10, 1000);
+            byte[] hash = rfc.GetBytes(20); // Generate 20 bytes
+            byte[] salt = rfc.Salt; // Gets the salt
+
+            // Returns the salt and hash w/ a colon delimiter.
+            return Convert.ToBase64String(salt) + ":" + Convert.ToBase64String(hash);
+        }
+
+        // Hash the user's password, given the pass and the salt
+        public string HashPassword(string pass, string salt)
+        {
+            Rfc2898DeriveBytes rfc = new Rfc2898DeriveBytes(pass, Convert.FromBase64String(salt), 1000);
+            byte[] hash = rfc.GetBytes(20);
+            byte[] newSalt = rfc.Salt;
+            return Convert.ToBase64String(newSalt) + ":" + Convert.ToBase64String(hash);
+        }
+
         // Get shopping cart ID
         public int getShoppingCartID(int userID)
         {
+            if (userID <= 0)
+                throw new ArgumentOutOfRangeException(INVALIDID);
+
             shoppingCart newCart = shoppingCart.Where(cart => cart.UserID == userID).SingleOrDefault();
             return newCart.ShoppingCartID;
         }
@@ -23,6 +58,9 @@ namespace StoreFront.Data
         // Get products in specific shopping cart using its ID
         public List<shoppingCartProduct> getShoppingCartProducts(int cartID)
         {
+            if (cartID <= 0)
+                throw new ArgumentOutOfRangeException("cartID", cartID, INVALIDID);
+
             shoppingCart tempCart = shoppingCart.Where(cart => cart.ShoppingCartID == cartID).SingleOrDefault();
             return tempCart.shoppingCartProduct.ToList();
         }
@@ -30,6 +68,15 @@ namespace StoreFront.Data
         // Remove items from specified cart given the cartID
         public void removeFromCart(int cartID, int userID, int addressID, double total)
         {
+            if (cartID <= 0)
+                throw new ArgumentOutOfRangeException("cartID", cartID, INVALIDID);
+            if (userID <= 0)
+                throw new ArgumentOutOfRangeException("userID", userID, INVALIDID);
+            if (addressID <= 0)
+                throw new ArgumentOutOfRangeException("addressID", addressID, INVALIDID);
+            if (total < 0)
+                throw new ArgumentOutOfRangeException("total", total, TOTALLESSTHANZERO);
+
             shoppingCart cart = this.shoppingCart.Where(temp => temp.ShoppingCartID == cartID).SingleOrDefault();
             
             List<shoppingCartProduct> productList = new List<shoppingCartProduct>();
@@ -50,6 +97,11 @@ namespace StoreFront.Data
         // Add an item to a specified order given the userID, selected AddressID, Total for the order.
         public void addToOrder(int userID, int addressID, double total, List<shoppingCartProduct> productList)
         {
+            if (total < 0)
+                throw new ArgumentOutOfRangeException("total", total, TOTALLESSTHANZERO);
+            if (productList == null)
+                throw new NullReferenceException("productList is null");
+
             // Create the order first
             orders order = new orders();
 
@@ -65,20 +117,22 @@ namespace StoreFront.Data
             this.orders.Add(order);
 
             // Add the items in the product list(formerly shopping cart) to the orderProducts table in the db.
-            foreach (var item in productList)
-            {
-                orderProduct prod = new orderProduct();
 
-                prod.OrderID = order.OrderID;
-                prod.ProductID = item.ProductID;
-                prod.Quantity = item.Quantity;
-                prod.Price = item.product.Price;
-                prod.DateCreated = DateTime.Now;
-                prod.CreatedBy = users.Where(usr => usr.UserID == userID).SingleOrDefault().UserName;
-                prod.DateModfied = null; // Misspelled modified in the db.
-                prod.ModifiedBy = null;
-                orderProduct.Add(prod);
-            }
+                foreach (var item in productList)
+                {
+                    orderProduct prod = new orderProduct();
+
+                    prod.OrderID = order.OrderID;
+                    prod.ProductID = item.ProductID;
+                    prod.Quantity = item.Quantity;
+                    prod.Price = item.product.Price;
+                    prod.DateCreated = DateTime.Now;
+                    prod.CreatedBy = users.Where(usr => usr.UserID == userID).SingleOrDefault().UserName;
+                    prod.DateModfied = null; // Misspelled modified in the db.
+                    prod.ModifiedBy = null;
+                    orderProduct.Add(prod);
+                }
+                
             SaveChanges();
         }
 

@@ -8,10 +8,10 @@
         <b>Price: $</b>
         @Html.DisplayFor(model => item.Price) <br />
         @{
-            if (Session["Username"] != null)
+            if (Session["UserName"] != null)
             {
-                Ecommerce.Models.users user = new Ecommerce.Models.users();
-                user = user.FindUser(Session["Username"].ToString());
+                StoreFront.Data.users user = new StoreFront.Data.users();
+                user = user.FindUser(Session["UserName"].ToString());
                 int shopCartID = user.GetShoppingCartID(user);
                 <input id="addToCart" type="button" value="Add To Cart" class="btn btn-info" onclick="ajaxAddToCart(@item.ProductID, @user.GetShoppingCartID(user))" />
             }

@@ -1,62 +1,61 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Ecommerce._Default" %>
 
 <asp:Content ID ="PageTitle" ContentPlaceHolderID="cpPageTitle" runat="server">
-    Downtown Brown Ice Rink
+    Administration 
 </asp:Content>
 <asp:Content ID="BodyContentLeft" ContentPlaceHolderID="cpMainContentLeft" runat="server">
-    <h2>Welcome to the site!</h2>
-    <strong>We sell custom made, new, or used gear such as</strong>
+    <h2 style="text-align:center">Navigation</h2>
+    <br />
     <ul>
-        <li><i>Helmets</i></li>
-        <li><i>Sticks</i></li>
-        <li><i>Skates</i></li>
-        <li><i>Pads</i></li>
-    </ul>
-    <strong>We also offer lessons, clinics, and leagues to all skill levels!</strong>
-    <ul>
-        <li>Learn to skate
+        <li>
+            Home
             <ul>
-                <li>Wednesday, Thursday, Saturday at 12:45pm</li>
+                <li>
+                    Takes you back to this page
+                </li>
             </ul>
         </li>
-        <li>High School Hockey
+        <li>
+            Product Info
             <ul>
-                <li>Tuesday, Friday, Saturday, Sunday from 5-9pm</li>
+                <li>
+                    Manage information about products in the database
+                </li>
             </ul>
         </li>
-        <li>Stick Time
+        <li>
+            Customer Info
             <ul>
-                <li>Saturday and Sunday at 9am</li>
-            </ul>
-        </li>
-        <li>Adult League
-            <ul>
-                <li>A -> Sunday from 12-9pm</li>
-                <li>B -> Friday and Saturday from 1-6pm</li>
-                <li>C -> Monday and Wednesday from 6-11pm</li>
-                <li>D -> Tuesday and Thursday from 6-11pm</li>
+                <li>
+                    Manage information about customers in the database
+                </li>
             </ul>
         </li>
     </ul>
 
 </asp:Content>
 <asp:Content ID="BodyContentRight" ContentPlaceHolderID="cpMainContentRight" runat="server">
-    <h2>Contact us at any time!</h2>
+    <h2 style="text-align:center">Support for any problems</h2>
     <ul>
-        <li>By phone at 
+        <li>M. Douglas
             <ul>
-                <li>
-                    Toll-Free: <strong>1-800-809-9982</strong>
-                </li>
-                <li>
-                    Not Toll-Free: <strong>1-800-811-1111</strong>
-                </li>
-                <li>Employee cell phone: <strong>1-313-505-9292</strong></li>
+                <li>Work Phone: <strong>300-809-9982 ext. 555</strong></li>
+                <li>Cell Phone: <strong>250-811-1111</strong></li>
+                <li>E-Mail: <strong>mDouglas@DTB.com</strong></li>
             </ul>
         </li>
-        <li>By E-mail at
+        <li>M. Scott
             <ul>
-                <li>thisIsARealPlace@thisRink.com</li>
+                <li>Work Phone: <strong>300-809-9982 ext. 556</strong></li>
+                <li>Cell Phone: <strong>288-122-5131</strong></li>
+                <li>E-Mail: <strong>mScott@DTB.com</strong></li>
+            </ul>
+        </li>
+        <li>D. Glover
+            <ul>
+                <li>Work Phone: <strong>300-809-9982 ext. 560</strong></li>
+                <li>Cell Phone: <strong>205-815-1232</strong></li>
+                <li>E-Mail: <strong>dGlover@DTB.com</strong></li>
             </ul>
         </li>
     </ul>

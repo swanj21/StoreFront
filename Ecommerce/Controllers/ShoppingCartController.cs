@@ -5,13 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using StoreFront.Data;
 
 namespace Ecommerce.Controllers
 {
     public class ShoppingCartController : Controller
     {
         ShoppingCartViewModel cart = new ShoppingCartViewModel();
-        users user = new users();
+        StoreFront.Data.users user = new StoreFront.Data.users();
 
         // GET: ShoppingCart
         public ActionResult Index()
@@ -22,13 +23,15 @@ namespace Ecommerce.Controllers
 
         public void GetShoppingCart()
         {
-            cart.PopulateCart(user.GetShoppingCartID(user.FindUser(Session["Username"].ToString())));
+            cart.PopulateCart(user.GetShoppingCartID(user.FindUser(Session["UserName"].ToString())));
         }
 
         [HttpPost]
         public ActionResult RemoveFromCart(int productID)
         {
-            int cartID = user.GetShoppingCartID(user.FindUser(Session["Username"].ToString()));
+            int cartID = user.GetShoppingCartID(user.FindUser(Session["UserName"].ToString()));
+
+            // MAKE THIS A PARAMETERIZED QUERY
             cart.Database.ExecuteSqlCommand("delete from shoppingCartProduct where ShoppingCartID = {0} AND ProductID = {1}",
                 cartID, productID);
             Session["ItemsInCart"] = Convert.ToInt32(Session["ItemsInCart"]) - 1;
@@ -60,7 +63,8 @@ namespace Ecommerce.Controllers
             if (quantity < 1)
                 return;
             
-            user = user.FindUser(Session["Username"].ToString());
+            user = user.FindUser(Session["UserName"].ToString());
+            // MAKE THIS A PARAMETERIZED QUERY
             cart.Database.ExecuteSqlCommand(
                 "UPDATE shoppingCartProduct " +
                 "SET Quantity = {0}, DateModified = SYSDATETIME(), ModifiedBy = {1} " +
