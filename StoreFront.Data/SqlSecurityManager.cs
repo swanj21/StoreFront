@@ -98,11 +98,5 @@ namespace StoreFront.Data
             db.users.Remove(usrObj);
             db.SaveChanges();
         }
-
-        // Use forms authentication and should be configured using the web.config.
-
-        // User table should be added to EF, all operations should use EF in a ---- new class called 'UserRepository' ----
-        // Login/Register should be updated to use the SqlSecurityManager to login/create users
-        // CustomerAdminDetails screen should use SqlSecurityManager to save all details related to the user
     }
 }

@@ -15,23 +15,27 @@ namespace StoreFront.ShippingApi.Controllers
         // GET: api/Order
         public IEnumerable<string> Get()
         {
-            // Mark an order as shipped using the function in OrderRepository.
-            StoreFront.Data.OrderRepository ordRepo = new StoreFront.Data.OrderRepository();
-            List<StoreFront.Data.orders> ordList = new List<StoreFront.Data.orders>();
-
-            DateTime startTime = new DateTime();
-            DateTime endTime = new DateTime();
-            int id = 1;
-
-            ordList = ordRepo.GetOrders(startTime, endTime);
-            // ordRepo.MarkOrderShipped(id);
-            return new string[] { startTime.ToString(), endTime.ToString(), id.ToString() };
+            return new string[] {};
         }
 
         // GET: api/Order/5
-        public string Get(int id)
+        public IEnumerable<string> Get(int id)
         {
-            return id.ToString();
+            return new string[] { id.ToString() };
+        }
+
+        // Return all order objects b/w startDate and endDate
+        public List<Data.orders> GetOrders(DateTime startDate, DateTime endDate)
+        {
+            Data.OrderRepository ordRepo = new Data.OrderRepository();
+            return ordRepo.GetOrders(startDate, endDate);
+        }
+
+        // Mark the order as shipped
+        public void MarkOrderShipped(int id)
+        {
+            Data.OrderRepository ordRepo = new Data.OrderRepository();
+            ordRepo.MarkOrderShipped(id);
         }
 
         // POST: api/Order

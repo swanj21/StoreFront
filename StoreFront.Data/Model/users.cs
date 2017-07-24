@@ -54,12 +54,12 @@ namespace StoreFront.Data
 
         public int GetItemsInCart(users user)
         {
-            // MAKE THE SQL A PARAMETERIZED QUERY
             if (user.Equals(null))
                 throw new NullReferenceException("users object is null");
 
-            int cartIDresult = GetShoppingCartID(user);
+            return db.shoppingCart.Find(GetShoppingCartID(user)).shoppingCartProduct.Count;
 
+            /*
             var numOfItems = db.Database.SqlQuery<int>(
                 "SELECT count(*) from (SELECT shoppingCartProduct.ProductID " +
                 "FROM shoppingCartProduct inner join product on shoppingCartProduct.ProductID = product.ProductID " +
@@ -67,6 +67,7 @@ namespace StoreFront.Data
                 cartIDresult);// shopCartID
             var result = numOfItems.SingleOrDefaultAsync().Result;
             return result;
+            */
         }
 
         [Key]

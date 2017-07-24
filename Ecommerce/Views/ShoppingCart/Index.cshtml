@@ -12,7 +12,12 @@
     @Html.Partial("_DisplayCart", Model)
 </div>
 
-@Html.ActionLink("Place Order", "PlaceOrder", "Order", new { }, new { @class = "btn btn-info" })
+@{
+    if (Model.ShoppingCartItems.Count != 0)
+    {
+        @Html.ActionLink("Place Order", "PlaceOrder", "Order", new { }, new { @class = "btn btn-info" })
+    }
+}
 
     <!-- Scripts -->
     @section scripts{

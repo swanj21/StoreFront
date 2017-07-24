@@ -87,7 +87,7 @@ namespace StoreFront.Data
             // Need to pass userID, addressID, total
             addToOrder(userID, addressID, total, productList);
 
-            // MAKE A PARAMETERIZED QUERY FOR THIS STATEMENT
+            // Can this be injected?
             Database.ExecuteSqlCommand("delete from shoppingCartProduct " +
                            "where ShoppingCartID = {0}",
                            cart.ShoppingCartID);
