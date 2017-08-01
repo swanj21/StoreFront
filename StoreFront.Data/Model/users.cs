@@ -5,6 +5,7 @@ namespace StoreFront.Data
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Linq;
 
     public partial class users
     {
@@ -40,34 +41,24 @@ namespace StoreFront.Data
             if (user.shoppingCart.Count == 0)
                 return -1;
 
-            // MAKE THIS A PARAMETERIZED QUERY
             // SQL query to get the shoppingCartID from a specific UserID.
-            var cartID = db.Database.SqlQuery<int>(
+            int cartID = db.Database.SqlQuery<int>(
                 "SELECT shoppingCart.ShoppingCartID " +
                 "FROM shoppingCart " +
                 "WHERE shoppingCart.UserID = {0} ",
-                user.UserID).SingleAsync();
-            int cartIDresult = cartID.Result;
+                user.UserID).SingleOrDefault();
 
-            return cartIDresult;
+            return cartID;
         }
 
         public int GetItemsInCart(users user)
         {
             if (user.Equals(null))
                 throw new NullReferenceException("users object is null");
+            if (user.shoppingCart.Count == 0)
+                user.shoppingCart.Add(new shoppingCart());
 
             return db.shoppingCart.Find(GetShoppingCartID(user)).shoppingCartProduct.Count;
-
-            /*
-            var numOfItems = db.Database.SqlQuery<int>(
-                "SELECT count(*) from (SELECT shoppingCartProduct.ProductID " +
-                "FROM shoppingCartProduct inner join product on shoppingCartProduct.ProductID = product.ProductID " +
-                "WHERE shoppingCartProduct.ShoppingCartID = {0}) as num;",
-                cartIDresult);// shopCartID
-            var result = numOfItems.SingleOrDefaultAsync().Result;
-            return result;
-            */
         }
 
         [Key]

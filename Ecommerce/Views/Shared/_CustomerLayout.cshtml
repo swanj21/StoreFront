@@ -23,8 +23,41 @@
                         </button>
                         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Search", "Index", "Search", new { area = "" }, new { @class = "navbar-brand" })
-                        @Html.ActionLink("Profile", "Index", "Users", new { area = "" }, new { @class = "navbar-brand" })
-                        <!-- Make these only appear if the user is an admin -->
+                        <div class="btn-group">
+                            <a class="navbar-brand dropdown-toggle btn-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Profile
+                                <span class="caret"></span>
+                                <span class="sr-only">Dropdown Toggle</span>
+                            </a>
+                            <!-- If the user is not logged in, show register/login on dropdown, else show home page -->
+                            @{
+                                if (Session["LogInValid"] != null)
+                                {
+                                    if (Session["LogInValid"].Equals("True"))
+                                    {
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Profile Home", "Index", "Users", new { }, new { @class = "" })</li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Register", "Register", "Users", new { }, new { @class = "" })</li>
+                                            <li>@Html.ActionLink("Login", "Login", "Users", new { }, new { @class = "" })</li>
+                                        </ul>
+                                    }
+                                }
+                                else
+                                {
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Register", "Register", "Users", new { }, new { @class = "" })</li>
+                                        <li>@Html.ActionLink("Login", "Login", "Users", new { }, new { @class = "" })</li>
+                                    </ul>
+                                }
+                            }
+                        </div>
+                        
+                        <!-- This will only show if the user is an admin -->
                         @{
                             StoreFront.Data.SqlSecurityManager sqlSM = new StoreFront.Data.SqlSecurityManager();
                             if (sqlSM.IsAdmin())
@@ -32,9 +65,10 @@
                                 <div class="navbar-brand">|</div>
                                 <a href="~/Default.aspx" class="navbar-brand">Admin</a>
                                 @Html.ActionLink("OrderAdmin", "OrdersAdmin", "Order", new { area = "" }, new { @class = "navbar-brand" })
+                                <div class="navbar-brand">|</div>
                             }
                         }
-
+                        <!-- End of admin section -->
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
@@ -42,7 +76,7 @@
                         @{
                             if (Session["LogInValid"] != null)
                             {
-                                if (Session["LogInValid"].ToString().Equals("True"))
+                                if (Session["LogInValid"].Equals("True"))
                                 {
                                     <div class="navbar-brand" style="float:right;">Welcome @Session["UserName"]</div>
                                 }

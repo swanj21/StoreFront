@@ -1,5 +1,5 @@
 ﻿<!-- SearchController - Search -->
-@model Ecommerce.Models.SearchViewModel
+@model StoreFront.Data.InventoryRepository
 @{
     ViewBag.Title = "Search";
 }
@@ -21,9 +21,9 @@
 </div>
 
 @{
-    if (Model.currentProdList.Count == 0)
-    {
-        @Html.Label("No products found!")
+    if (Model.prodList.Count == 0)
+    { 
+        @Html.Label("No products found!") 
     }
 }
 

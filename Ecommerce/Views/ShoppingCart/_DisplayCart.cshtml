@@ -1,29 +1,33 @@
-﻿@model Ecommerce.Models.ShoppingCartViewModel
+﻿@model StoreFront.Data.StoreFrontDataModel
 
     <form id="cartForm">
         <table id="cartDisplayTable">
             <tbody>
 
-                @foreach (var item in Model.ShoppingCartItems)
+                @{ 
+                    StoreFront.Data.SqlSecurityManager sqlSM = new StoreFront.Data.SqlSecurityManager();
+                    StoreFront.Data.users user = sqlSM.LoadUser(Session["UserName"].ToString());
+                }
+                @foreach (var item in Model.getShoppingCartProducts(Model.getShoppingCartID(user.UserID)))
                 {
                     <tr id="productList" style="border:double; height:225px; width:500px" class="col-lg-6">
                         <td>
                             <b><u>Product:</u></b><br />
                             <div id="productName">
-                                @item.ProductName <br />
+                                @item.product.ProductName <br />
                             </div>
                             <b><u>Quantity:</u></b><br />
                             @Html.TextBox("Quantity" + item.ProductID.ToString(), item.Quantity, new { @class = "form-control", @style = "width: 50px" })
                             <b><u>Price:</u></b><br />
                             <div id="price">
-                                @item.Price <br /><br />
+                                @item.product.Price <br /><br />
                             </div>
                             <input style="float:left;" type="button" value="Update" class="btn btn-info" onclick="GetNewQuantities(@item.ProductID)" /> or 
                             <input id="removeFromCart" name="removeFromCart" type="button" value="Remove" class="btn btn-info" onclick="ajaxRemoveFromCart(@item.ProductID)" />
                         </td>
                         <td>
                             <div id="image">
-                                <img src="~/ProductImages/@item.ImageFile" alt="Picture" width="250" height="200" style="padding-left: 50px; padding-top: 15px; float:right;" />
+                                <img src="~/ProductImages/@item.product.ImageFile" alt="Picture" width="250" height="200" style="padding-left: 50px; padding-top: 15px; float:right;" />
                             </div>
                         </td>
                     </tr>
@@ -33,7 +37,7 @@
     </form>
 
 @{ 
-    if (Model.ShoppingCartItems.Count == 0)
+    if (Model.shoppingCartProduct.Count() == 0)
     {
         @Html.Label("You have no items in your cart!");
     }

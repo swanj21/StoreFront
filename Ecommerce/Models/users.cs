@@ -110,7 +110,6 @@ namespace Ecommerce.Models
         [StringLength(255)]
         [EmailAddress]
         [Display(Name ="Email Address")]
-        // [RegularExpression("^[a-zA-Z_]([a-zA-Z0-9_\\.\\-])+@([a-zA-Z0-9\\-\\.])+([a-zA-Z0-9])+")]
         public string EmailAddress { get; set; }
 
         public bool? IsAdmin { get; set; }

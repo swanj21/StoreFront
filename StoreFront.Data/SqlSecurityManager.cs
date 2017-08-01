@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.ModelBinding;
 
 namespace StoreFront.Data
 {
@@ -22,15 +17,13 @@ namespace StoreFront.Data
             if (user == null)
                 return false;
 
-            bool goodUsername = (user.UserName != null);
-            if (goodUsername)
+            if (user.UserName != null)
             {
                 string[] splitPass = user.Password.Split(':');
-                string hashedPass = db.HashPassword(password, splitPass[0]); // Does this work now?
+                string hashedPass = db.HashPassword(password, splitPass[0]);
 
-                bool goodPassword = db.users.Where(usr => usr.Password == hashedPass).SingleOrDefault() != null;
-
-                if (goodPassword)
+                // If password is OK
+                if (db.users.Where(usr => usr.Password == hashedPass).SingleOrDefault() != null)
                 {
                     HttpContext.Current.Session.Add("UserName", username);
                     return true;
@@ -42,11 +35,10 @@ namespace StoreFront.Data
         // IsAdmin() will utilize EF to check if username stored in session is admin and return a boolean value
         public bool IsAdmin()
         {
-            if (HttpContext.Current.Session["Username"] != null)
+            if (HttpContext.Current.Session["UserName"] != null)
             {
-                string uName = HttpContext.Current.Session["UserName"].ToString();
+                string uName = HttpContext.Current.Session["UserName"].ToString();// LINQ does not accept using HttpContext within a .Where expression
                 users tempUser = db.users.Where(item => item.UserName == uName).Single();
-
                 return (tempUser.IsAdmin == true);
             }
             return false;
@@ -55,18 +47,17 @@ namespace StoreFront.Data
         // LoadUser(string username) will load the properties of this object based on username given
         public users LoadUser(string username)
         {
-            users user = db.users.Where(usr => usr.UserName.Equals(username)).SingleOrDefault();
-            return user;
+            return db.users.Where(usr => usr.UserName.Equals(username)).SingleOrDefault();
         }
 
         // SaveUser() Updates the DB based on UserID to keep information in sync b/w membership provider and User tables.
-        //      This is unclear, what does that mean and how will it work? ASK DAN.
+        //      This is unclear, what does that mean and how will it work?
         public void SaveUser()
         {
             db.SaveChanges();
         }
 
-        // RegisterUser() 
+        // RegisterUser()
         //     Create user account in appropriate table. No admin role for newly created users.
         public bool RegisterUser(users user)
         {
@@ -91,11 +82,9 @@ namespace StoreFront.Data
         //     Remove user from database
         public void DeleteUser(string username)
         {
-            users usrObj = (from user in db.users
-                            where user.UserName == username
-                            select user).SingleOrDefault();
-
-            db.users.Remove(usrObj);
+            db.users.Remove((from user in db.users
+                             where user.UserName == username
+                             select user).SingleOrDefault());
             db.SaveChanges();
         }
     }

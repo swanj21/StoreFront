@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using StoreFront.Data;
 
@@ -10,10 +9,14 @@ namespace Ecommerce.Controllers
     public class OrderController : Controller
     {
         StoreFrontDataModel db = new StoreFrontDataModel();
+        SqlSecurityManager sqlSM = new SqlSecurityManager();
 
         public ActionResult OrdersAdmin()
         {
-            return View();
+            if (sqlSM.IsAdmin()) // IsAdmin() also checks if the Session["UserName"] == null
+                return View();
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -21,9 +24,13 @@ namespace Ecommerce.Controllers
         {
             return RedirectToAction("OrderAdminDetails", new { orderID = orderID });
         }
+
         public ActionResult OrderAdminDetails(int orderID)
         {
-            return View(orderID);
+            if (sqlSM.IsAdmin())
+                return View(orderID);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult PlaceOrder()
@@ -41,15 +48,14 @@ namespace Ecommerce.Controllers
             add.Address2 = address2;
             add.Address3 = address3;
             add.City = addressCity;
-            add.StateID = addressState; // Need to make a dropdown or something to choose the stateID from previous page.
+            add.StateID = addressState;
             add.ZipCode = addressZip;
             add.IsBilling = addressBilling;
             add.IsShipping = addressShipping;
             add.CreatedBy = Session["UserName"].ToString();
             add.DateCreated = DateTime.Now;
-            string tempName = Session["UserName"].ToString();
-            add.UserID = db.users.Where(usr => usr.UserName.Equals(tempName)).SingleOrDefault().UserID;
-
+            add.UserID = db.users.Where(usr => usr.UserName.Equals(add.CreatedBy)).Single().UserID;
+            
             db.address.Add(add);
             db.SaveChanges();
 
@@ -96,19 +102,23 @@ namespace Ecommerce.Controllers
             if (quantity < 1)
                 return PartialView("productsTab", ord);
 
-            // MAKE A PARAMETERIZED QUERY FOR THIS STATEMENT
-            db.Database.ExecuteSqlCommand("UPDATE orderProduct " +
-                                          "SET Quantity = {0} " +
-                                          "WHERE OrderProductID = {1}", quantity, prodID);
+            db.orderProduct.Where(op => op.OrderProductID == prodID).Single().Quantity = quantity;
+            db.SaveChanges();
+
             return PartialView("productsTab", ord);
         }
 
         public PartialViewResult RemoveFromOrder(int orderProdID, int orderID)
         {
             orders order = db.orders.Find(orderID);
-            // MAKE A PARAMETERIZED QUERY FOR THIS STATEMENT
+            db.orderProduct.Remove((from op in db.orderProduct
+                                    where op.OrderProductID == orderProdID
+                                    select op).Single());
+            db.SaveChanges();
+            /*
             db.Database.ExecuteSqlCommand("DELETE FROM orderProduct " +
                                           "WHERE OrderProductID = {0}", orderProdID);
+            */
             return PartialView("productsTab", order);
         }
     }

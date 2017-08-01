@@ -1,29 +1,26 @@
-﻿using Ecommerce.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using StoreFront.Data;
+using System.Linq;
 
 namespace Ecommerce.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        ShoppingCartViewModel cart = new ShoppingCartViewModel();
-        StoreFront.Data.users user = new StoreFront.Data.users();
+        StoreFrontDataModel db = new StoreFrontDataModel();
+        users user = new users();
 
         // GET: ShoppingCart
         public ActionResult Index()
         {
             GetShoppingCart();
-            return View(cart);
+            return View(db);
         }
 
         public void GetShoppingCart()
         {
-            cart.PopulateCart(user.GetShoppingCartID(user.FindUser(Session["UserName"].ToString())));
+            db.getShoppingCartProducts(user.GetShoppingCartID(user.FindUser(Session["UserName"].ToString())));
         }
 
         [HttpPost]
@@ -31,13 +28,15 @@ namespace Ecommerce.Controllers
         {
             int cartID = user.GetShoppingCartID(user.FindUser(Session["UserName"].ToString()));
 
-            // MAKE THIS A PARAMETERIZED QUERY
-            cart.Database.ExecuteSqlCommand("delete from shoppingCartProduct where ShoppingCartID = {0} AND ProductID = {1}",
-                cartID, productID);
+            db.shoppingCartProduct.Remove((from item in db.shoppingCartProduct
+                                             where item.ShoppingCartID == cartID && item.ProductID == productID
+                                             select item).Single());
             Session["ItemsInCart"] = Convert.ToInt32(Session["ItemsInCart"]) - 1;
             GetShoppingCart();
 
-            var _displayCartPartialView = RazorToString(this.ControllerContext, "_DisplayCart", cart);
+            db.SaveChanges();
+
+            var _displayCartPartialView = RazorToString(this.ControllerContext, "_DisplayCart", db);
             var _cartPartialView = RazorToString(this.ControllerContext, "_Cart", Session["ItemsInCart"]);
             var json = Json(new { _displayCartPartialView, _cartPartialView });
 
@@ -64,12 +63,12 @@ namespace Ecommerce.Controllers
                 return;
             
             user = user.FindUser(Session["UserName"].ToString());
-            // MAKE THIS A PARAMETERIZED QUERY
-            cart.Database.ExecuteSqlCommand(
-                "UPDATE shoppingCartProduct " +
-                "SET Quantity = {0}, DateModified = SYSDATETIME(), ModifiedBy = {1} " +
-                "WHERE ShoppingCartID = {2} AND ProductID = {3};", 
-                quantity, user.UserName, user.GetShoppingCartID(user), prodID);
+
+            shoppingCartProduct prod = db.shoppingCartProduct.Where(pr => pr.ProductID == prodID).Single();
+            prod.ModifiedBy = user.UserName;
+            prod.Quantity = quantity;
+            prod.DateModified = DateTime.Now;
+            db.SaveChanges();
         }
     }
 }

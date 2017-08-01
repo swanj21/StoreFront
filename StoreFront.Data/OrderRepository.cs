@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StoreFront.Data
 {
@@ -30,9 +28,7 @@ namespace StoreFront.Data
         // This will get an order and change its status to 'Shipped'(3).
         public void MarkOrderShipped(int id)
         {
-            orders curOrder = new orders();
-            curOrder = db.orders.Find(id);
-            curOrder.StatusID = 3;
+            db.orders.Find(id).StatusID = 3;
             db.SaveChanges();
         }
     }

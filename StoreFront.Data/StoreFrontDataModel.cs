@@ -2,7 +2,6 @@ namespace StoreFront.Data
 {
     using System;
     using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Collections.Generic;
     using System.Security.Cryptography;
@@ -51,8 +50,7 @@ namespace StoreFront.Data
             if (userID <= 0)
                 throw new ArgumentOutOfRangeException(INVALIDID);
 
-            shoppingCart newCart = shoppingCart.Where(cart => cart.UserID == userID).SingleOrDefault();
-            return newCart.ShoppingCartID;
+            return shoppingCart.Where(cart => cart.UserID == userID).SingleOrDefault().ShoppingCartID;
         }
 
         // Get products in specific shopping cart using its ID
@@ -61,8 +59,7 @@ namespace StoreFront.Data
             if (cartID <= 0)
                 throw new ArgumentOutOfRangeException("cartID", cartID, INVALIDID);
 
-            shoppingCart tempCart = shoppingCart.Where(cart => cart.ShoppingCartID == cartID).SingleOrDefault();
-            return tempCart.shoppingCartProduct.ToList();
+            return shoppingCart.Where(cart => cart.ShoppingCartID == cartID).SingleOrDefault().shoppingCartProduct.ToList();
         }
 
         // Remove items from specified cart given the cartID
@@ -77,7 +74,7 @@ namespace StoreFront.Data
             if (total < 0)
                 throw new ArgumentOutOfRangeException("total", total, TOTALLESSTHANZERO);
 
-            shoppingCart cart = this.shoppingCart.Where(temp => temp.ShoppingCartID == cartID).SingleOrDefault();
+            shoppingCart cart = shoppingCart.Where(temp => temp.ShoppingCartID == cartID).SingleOrDefault();
             
             List<shoppingCartProduct> productList = new List<shoppingCartProduct>();
             foreach(var item in cart.shoppingCartProduct)

@@ -4,13 +4,15 @@
 
     if (Session["LogInValid"].ToString().Equals("True"))
     {
-        <h2>Welcome to your user page!</h2>
+        <h2>Welcome to your user page, @Session["UserName"]</h2>
     }
     else
     {
     <p>
-        @Html.ActionLink("Register", "Register", "Users", new { }, new { @class = "btn btn-default" }) <span class="glyphicon glyphicon-arrow-right"></span> If you have not been here before.<br /><br />
-        @Html.ActionLink("Login", "Login", "Users", new { }, new { @class = "btn btn-primary" }) <span class="glyphicon glyphicon-arrow-right"></span> If you are a returning user.
+        @Html.ActionLink("Register", "Register", "Users", new { }, new { @class = "btn btn-default" }) <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i>or</i><br />
+        &nbsp; @Html.ActionLink("Login", "Login", "Users", new { }, new { @class = "btn btn-primary" })
     </p>
     }
     /* If the session for the user exists then hide the register and login buttons

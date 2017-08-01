@@ -1,6 +1,6 @@
 ﻿<!-- ShoppingCartController - Index -->
 
-@model Ecommerce.Models.ShoppingCartViewModel
+@model StoreFront.Data.StoreFrontDataModel
 
 @{
     ViewBag.Title = "Shopping Cart";
@@ -13,7 +13,7 @@
 </div>
 
 @{
-    if (Model.ShoppingCartItems.Count != 0)
+    if (Model.shoppingCartProduct.Count() != 0)
     {
         @Html.ActionLink("Place Order", "PlaceOrder", "Order", new { }, new { @class = "btn btn-info" })
     }

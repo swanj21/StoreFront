@@ -5,12 +5,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using StoreFront.Data;
 
 namespace Ecommerce.Controllers
 {
     public class SearchController : Controller
     {
-        SearchViewModel SVdb = new SearchViewModel();
+         InventoryRepository SVdb = new InventoryRepository();
 
         // GET: Search(Search/Index)
         public ActionResult Index()
@@ -22,15 +23,14 @@ namespace Ecommerce.Controllers
         // POST: Search/Index
         [HttpPost]
         public ActionResult Index(string searchItem)
-        {// searchItem works, holds the value of the string to search.
-            // List<Ecommerce.Models.product> prodList = SVdb.SearchProducts(searchItem);
+        {
             SVdb.SearchProducts(searchItem);
 
             return View("Search", SVdb);
         }
 
         // GET
-        public ActionResult Search(SearchViewModel svm)
+        public ActionResult Search(InventoryRepository svm)
         {
             ViewBag.Title = "Products";
             return View(svm);
@@ -41,9 +41,9 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
+
         /* This will add the specified item to the specified shopping cart, 
          * and increase the session[ItemsInCart] by 1.  */
-
         public PartialViewResult AddShoppingCartItem(int itemID, int shoppingCartID, string searchStr)
         {
             StoreFront.Data.users curUser = new StoreFront.Data.users();
