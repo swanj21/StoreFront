@@ -14,7 +14,7 @@ namespace StoreFront.Data
         {
             orders = new HashSet<orders>();
         }
-
+        
         public int AddressID { get; set; }
 
         public int? UserID { get; set; }
